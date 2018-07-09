@@ -10,6 +10,7 @@ $(document).ready(function() {
             url: "getCachedDeals",
             data: {
                 origin: $("#origin").val(),
+                dest: $("#dest").val()
             },
             success: function (data) {
                 $("#status").empty();

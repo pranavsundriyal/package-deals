@@ -1,9 +1,10 @@
 package deals;
 
+import deals.sort.SortByPackagePrice;
+import deals.sort.SortBySavings;
 import deals.sql.model.PackageDeal;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public  class Util {
 
     public static List<PackageDeal> sort(List<PackageDeal> packageDeals) {
         Collections.sort(packageDeals, new SortBySavings());
+        Collections.sort(packageDeals, new SortByPackagePrice());
         return packageDeals;
     }
 }

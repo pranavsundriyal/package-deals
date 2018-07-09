@@ -1,14 +1,15 @@
 deals/xml/XmlUtil.class
 deals/sql/SqlQueryGenerator.class
 deals/local/JsonDeals.class
+deals/sort/SortByPackagePrice.class
 deals/Util.class
 deals/sql/model/Deals.class
 deals/service/TopDestinationService.class
+deals/sort/SortBySavings.class
 deals/controller/DealsController.class
 deals/sql/model/PackageDeal.class
 deals/cache/CacheManager.class
 deals/local/JsonDeals$1.class
-deals/SortBySavings.class
 deals/service/RedshiftConnector.class
 deals/Application.class
 deals/model/json/Deal.class

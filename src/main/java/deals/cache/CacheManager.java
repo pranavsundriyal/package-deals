@@ -58,7 +58,9 @@ public class CacheManager {
     public List<PackageDeal> getCachedDeals(String origin, String destination) {
         String key = generateKey(origin,destination);
         if (packageDealMap.containsKey(key)) {
-            return packageDealMap.get(key);
+            List<PackageDeal> packageDeals = packageDealMap.get(key);
+            sort(packageDeals);
+            return packageDeals;
         }
 
         return new ArrayList();
@@ -85,8 +87,8 @@ public class CacheManager {
     @Scheduled(fixedRate = 86400000)
     public void clearCache() {
         packageDealMap = new HashMap<>();
-        //String query = SqlQueryGenerator.generateQuery("ORD", euro, 5,5);
-        //List<PackageDeal> deals = redshiftConnector.execute(query);
+        //String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList("SEA", "ORD"), euro, 5,5);
+        //List<PackageDeal> packageDeals = redshiftConnector.execute(query);
         List<PackageDeal> packageDeals = xmlUtil.read();
         packageDeals = addValues(packageDeals);
         cacheDeals(packageDeals);

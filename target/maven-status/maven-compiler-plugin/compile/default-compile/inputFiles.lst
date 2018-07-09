@@ -7,7 +7,8 @@
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sql/model/PackageDeal.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sql/model/Deals.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/Application.java
-/Users/psundriyal/expedia/package-deals/src/main/java/deals/SortBySavings.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/local/JsonDeals.java
+/Users/psundriyal/expedia/package-deals/src/main/java/deals/sort/SortByPackagePrice.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/model/json/Deal.java
+/Users/psundriyal/expedia/package-deals/src/main/java/deals/sort/SortBySavings.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/Util.java

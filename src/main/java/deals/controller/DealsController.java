@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +50,15 @@ public class DealsController {
     }
 
     @RequestMapping(value = "/getCachedDeals")
-    public List<PackageDeal> getCachedDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
+    public List<PackageDeal> getCachedDeals(@RequestParam(value = "origin", required = true) String origin,
+                                            @RequestParam(value = "dest", required = true) String dest) throws Exception {
+        List<PackageDeal> deals = new ArrayList();
+        if (!dest.isEmpty()) {
+            deals = cacheManager.getCachedDeals(origin,dest);
+        } else {
+            deals = cacheManager.getCachedDeals(origin);
 
-        List<PackageDeal> deals = cacheManager.getCachedDeals(origin);
+        }
         return deals;
     }
 

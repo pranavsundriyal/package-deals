@@ -24,7 +24,18 @@ public class SqlQueryGenerator {
     public static List<String> austrailia = Arrays.asList("SYD", "MEL", "ADL", "CBR");
 
 
-    public static String generateQuery(String origin, List<String> destinations, int noOfDays, int dayOfWeek) {
+    public static String generateMultiOriginOrQuery(List<String> origins, List<String> destinations, int noOfDays, int dayOfWeek) {
+
+        String query = generateQuery(origins.get(0), destinations, noOfDays, dayOfWeek);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateQuery(origins.get(i), destinations, noOfDays, dayOfWeek);
+            query = query+ UNION + subQuery;
+        }
+        return query;
+    }
+
+        public static String generateQuery(String origin, List<String> destinations, int noOfDays, int dayOfWeek) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate searchDate = LocalDate.now().minusDays(3);
