@@ -33,7 +33,7 @@ public class TopDestinationService {
         Connection conn = null;
         Statement stmt = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate searchDate = LocalDate.now().minusDays(1);
+        LocalDate searchDate = LocalDate.now().minusDays(2);
         log.info(formatter.format(searchDate));
 
         List<String> destinations = new ArrayList<>();
@@ -61,9 +61,9 @@ public class TopDestinationService {
 
             //Get the data from the result set.
             while(rs.next()){
-                log.info(rs.getString("pack_price"));
+                log.info(rs.getString("inbound_airport"));
                 destinations.add(
-                        rs.getString("destination"));
+                        rs.getString("inbound_airport"));
 
             }
             rs.close();
