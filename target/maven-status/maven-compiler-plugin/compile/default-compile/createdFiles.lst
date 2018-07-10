@@ -1,8 +1,8 @@
 deals/xml/XmlUtil.class
 deals/sql/SqlQueryGenerator.class
 deals/local/JsonDeals.class
+deals/util/Util.class
 deals/sort/SortByPackagePrice.class
-deals/Util.class
 deals/sql/model/Deals.class
 deals/service/TopDestinationService.class
 deals/sort/SortBySavings.class

@@ -1,4 +1,4 @@
-package deals;
+package deals.util;
 
 import deals.sort.SortByPackagePrice;
 import deals.sort.SortBySavings;

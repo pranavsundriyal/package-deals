@@ -12,8 +12,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.List;
 
-import static deals.Util.addValues;
-
 
 /**
  * Created by psundriyal on 7/8/18.

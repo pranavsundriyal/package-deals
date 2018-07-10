@@ -1,6 +1,7 @@
 package deals.cache;
 
 import deals.service.RedshiftConnector;
+import deals.service.TopDestinationService;
 import deals.sql.SqlQueryGenerator;
 import deals.sql.model.PackageDeal;
 import deals.xml.XmlUtil;
@@ -14,9 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static deals.Util.addValues;
-import static deals.Util.sort;
-import static deals.sql.SqlQueryGenerator.europe;
+import static deals.util.Util.addValues;
+import static deals.util.Util.sort;
 
 /**
  * Created by psundriyal on 6/17/18.
@@ -30,6 +30,9 @@ public class CacheManager {
 
     @Autowired
     RedshiftConnector redshiftConnector;
+
+    @Autowired
+    TopDestinationService topDestinationService;
 
     @Autowired
     XmlUtil xmlUtil;
@@ -87,8 +90,12 @@ public class CacheManager {
     @Scheduled(fixedRate = 86400000)
     public void clearCache() {
         packageDealMap = new HashMap<>();
-        //String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList("SEA", "ORD"), euro, 5,5);
+
+        String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList("SEA", "ORD"), euro, 5,5);
+        //List<String> dest =  topDestinationService.execute(SqlQueryGenerator.generateTopDest("SEA"));
+        //List<PackageDeal> packageDeals = redshiftConnector.execute(SqlQueryGenerator.generateQuery("SEA", dest, 5,5));
         //List<PackageDeal> packageDeals = redshiftConnector.execute(query);
+
         List<PackageDeal> packageDeals = xmlUtil.read();
         packageDeals = addValues(packageDeals);
         cacheDeals(packageDeals);

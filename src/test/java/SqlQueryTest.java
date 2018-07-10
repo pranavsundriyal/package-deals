@@ -81,9 +81,17 @@ public class SqlQueryTest {
         Assert.notNull(query);
     }
 
+
     @Test
     public void buildMultiOriginQueryTest() {
         String query  = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList("ORD", "SEA"), europe, 5, 5);
+        System.out.println(query);
+        Assert.notNull(query);
+    }
+
+    @Test
+    public void buildTopDest(){
+        String query = SqlQueryGenerator.generateTopDest("SEA");
         System.out.println(query);
         Assert.notNull(query);
     }

@@ -19,7 +19,10 @@ import java.util.logging.Logger;
 @Component
 public class RedshiftConnector {
 
-    
+    static final String dbURL = "jdbc:redshift://bexg.cdzdl6bkwykk.us-east-1.redshift.amazonaws.com:5439/prod";
+    static final String MasterUsername = "air_shop_data_ingestion";
+    static final String MasterUserPassword = "Airshopdata123";
+
     private Logger log = Logger.getLogger(RedshiftConnector.class.getName());
 
     @Autowired

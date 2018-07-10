@@ -18,8 +18,8 @@ $(document).ready(function() {
 
                 for(var i=0; i<data.length; i++) {
                     $("#results").append('<a target="_blank" rel="noopener noreferrer" href="' +data[i].url+'"> Package Price :'
-                        + data[i].packageNetPrice + '&nbsp;&nbsp;&nbsp;&nbsp;Origin : '+data[i].origin+'&nbsp;&nbsp;&nbsp;&nbsp;Destination: '+data[i].destination+'<br>'
-                        +'Outbound DateTime: '+data[i].outboundDate+'&nbsp;&nbsp;&nbsp;&nbsp;Inbound DateTime: '
+                        + data[i].packageNetPrice + '<br>Origin : '+data[i].origin+'&nbsp;&nbsp;->&nbsp;&nbsp;Destination: '+data[i].destination+'<br>'
+                        +'Outbound DateTime: '+data[i].outboundDate+'&nbsp;&nbsp;->&nbsp;&nbsp;Inbound DateTime: '
                         +data[i].inboundDate+'<br>'+ 'Flight No: ' + data[i].flightNo +'<br><b>Savings ' + data[i].savings+'%<b></a><br><br><br>');
                 }
             },
