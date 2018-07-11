@@ -1,0 +1,29 @@
+.package-price {
+    color: black;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: bold;
+}
+
+.savings {
+    color: #2e7ead;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-style: italic;
+}
+
+h5 {
+    color: black;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: lighter;
+}
+
+.hide-deal-card {
+    display: none;
+}
+
+#search-again {
+    color: #2e7ead;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: medium;
+    font-weight: bold;
+}
+

@@ -4,6 +4,7 @@
     <title> Package Deals</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
 
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
@@ -13,21 +14,27 @@
 </head>
 <body>
 
-<div><div class="container">
+<div>
+    <div class="container">
     <div class="jumbotron">
-        <h1 align="center">Package Deals</h1>
-        </div>
+        <h1 align="center" style="color:black; font-family: Tahoma, Geneva, sans-serif; font-weight: bold;">Discover Package Deals</h1>
+    </div>
 
-    <div >
-    <div class="row"><div class="col-md-8 col-centered">
+
+    <div class="row">
+        <div class="col-md-12 col-centered">
         <div class="form-group">
-            Origin :<input type="text" id="origin" value="ORD"><br><br>
-            Destination :<input type="text" id="dest" value=""><br><br>
+            Origin : <input type="text" id="origin" value="ORD"><br><br>
+            Destination : <input type="text" id="dest" value=""><br><br>
         </div>
-        <button id="search" class="btn-primary" type="button" >Search</button><br><br>
-        <div id="status"></div><br><br>
-        <div id="results" class="row"></div><br><br>
-
-    </div></div></div></div>
+        <button id="search" class="btn-primary" type="button" >Search</button><br>
+        <div id="status"></div><br>
+            <div align="center" style="color:#2e7ead; font-family: Tahoma, Geneva, sans-serif; font-size: medium; font-weight: bold;" id="timer"></div><br>
+            <div align="center" id="search-again"></div><br>
+            <div id="results" class="col-md-12 col-centered"></div><br><br>
+        </div>
+    </div>
+    </div>
+</div>
 </body>
 </html>
