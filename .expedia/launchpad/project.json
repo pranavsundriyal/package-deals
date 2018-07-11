@@ -1,9 +1,9 @@
 {
-	"name": "project name",
+	"name": "Unreal Deals",
 	"enabled": true,
 	"icon": 153,
 	"team": "Unreal Deals",
-	"team-email": "<team-email>@expedia.com",
+	"team-email": "psundriyal@expedia.com",
 	"slack-channel": "#<team-slack-channel>",
 	"tag-line": "Find Package deals with huge discounts. Package deals which are in 1 percentile of the discounts given world over. ",
 	"links": [
