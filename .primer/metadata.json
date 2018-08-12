@@ -1,0 +1,23 @@
+{
+  "brand": "Brand Expedia",
+  "name": "package-deals",
+  "team": "Air Red Arrows",
+  "applicationStack": "sos-sb-service",
+  "repoSource": "https://ewegithub.sb.karmalab.net/EWE/package-deals",
+  "serviceTier": "Tier 3",
+  "segments": ["air"],
+  "privacyData": {
+    "complianceElements": [],
+    "storageLocations": [],
+    "services": {
+      "externalToExpedia": {
+        "downstream": [],
+        "upstream": []
+      },
+      "internalToExpedia": {
+        "downstream": [],
+        "upstream": []
+      }
+    }
+  }
+}

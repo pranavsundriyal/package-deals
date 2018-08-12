@@ -1,0 +1,14 @@
+{
+  "methods": [
+    {
+      "type": "email",
+      "location": "psundriyal@expedia.com",
+      "severity": [
+        "info",
+        "error",
+        "warn"
+      ]
+    }
+  ]
+}
+
