@@ -1,0 +1,16 @@
+{
+  "generator-cs-spring-boot": {
+    "appName": "package-deals",
+    "roleName": "package-deals",
+    "team": "Air Red Arrows",
+    "email": "psundriyal@expedia.com",
+    "chatRoom": "",
+    "templateVersion": "3bd4d950b1b1b1ae558ecaba9a0d9f2bfabd7c6c",
+    "packageName": "com.expedia.www.package.deals",
+    "groupId": "com.expedia.www.package.deals",
+    "artifactId": "package-deals",
+    "packageSignature": "com.expedia.www.package.deals",
+    "packageFolders": "com/expedia/www/package/deals",
+    "basePort": "__ecs_base_port__"
+  }
+}

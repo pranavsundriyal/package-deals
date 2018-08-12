@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description>&lt;h3 style="color:blue"&gt;Owner: &lt;a href="mailto:psundriyal@expedia.com"&gt;psundriyal&lt;/a&gt;&lt;/h3&gt;
+
+        &lt;h3 style="color:blue"&gt;This Fortify-Devops job has been created by Primer&lt;/h3&gt;
+        &lt;h4 style="color:red"&gt;For permissions to this job, please contact the job owner.&lt;/h4&gt;
+        &lt;h1&gt;Overview&lt;/h1&gt;
+
+        &lt;p&gt;
+
+        This job is configured to run Fortify scans weekly for this application.  You are welcome to change this to run them more frequently if you like.
+
+        &lt;/p&gt;
+        &lt;p&gt;
+
+        Scan configuration is now stored in the &lt;a href="https://ewegithub.sb.karmalab.net/EWE/fortify-devops/tree/master/conf/application"&gt;Fortify devops repository&lt;/a&gt;.
+
+        &lt;/p&gt;
+        &lt;p&gt;
+
+        You can view your scan results in the &lt;a href="https://ssc.idxlab.expedmz.com"&gt;HP SSC Portal&lt;/a&gt;. You will need to request access to the scan using the self service &lt;a href="https://security.tools.expedia.com"&gt;Security Dashboard&lt;/a&gt;.
+
+        &lt;/p&gt;
+    </description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.security.AuthorizationMatrixProperty>
+            <permission>hudson.model.Item.Configure:psundriyal</permission>
+            <permission>hudson.scm.SCM.Tag:psundriyal</permission>
+            <permission>com.synopsys.arc.jenkins.plugins.ownership.OwnershipPlugin.Jobs:psundriyal</permission>
+            <permission>hudson.model.Item.ExtendedRead:psundriyal</permission>
+            <permission>hudson.model.Item.Read:psundriyal</permission>
+        </hudson.security.AuthorizationMatrixProperty>
+        <jenkins.model.BuildDiscarderProperty>
+            <strategy class="hudson.tasks.LogRotator">
+                <daysToKeep>-1</daysToKeep>
+                <numToKeep>15</numToKeep>
+                <artifactDaysToKeep>-1</artifactDaysToKeep>
+                <artifactNumToKeep>-1</artifactNumToKeep>
+            </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.5.3">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>git@ewegithub.sb.karmalab.net:EWE/package-deals.git</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>refs/heads/master</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.UserExclusion>
+                <excludedUsers>
+                    ewe-jenkins
+                    ewbldsup
+                    jenkins
+                    *jenkins*
+                </excludedUsers>
+            </hudson.plugins.git.extensions.impl.UserExclusion>
+            <hudson.plugins.git.extensions.impl.PerBuildTag/>
+            <hudson.plugins.git.extensions.impl.LocalBranch>
+                <localBranch>master</localBranch>
+            </hudson.plugins.git.extensions.impl.LocalBranch>
+        </extensions>
+    </scm>
+    <assignedNode>linux &amp;&amp; builder &amp;&amp; amazon</assignedNode>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <authToken>fortifyScan</authToken>
+    <triggers>
+        <hudson.triggers.TimerTrigger>
+            <spec>@weekly</spec>
+        </hudson.triggers.TimerTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.32">
+            <configs>
+                <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+                    <configs>
+                        <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
+                        <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+                            <properties>PORTFOLIO=EWE Primer&#10;APPLICATION=package-deals&#10;VERSION=${GIT_COMMIT}&#10;</properties>
+                        </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+                    </configs>
+                    <projects>run-fortify-scan</projects>
+                    <condition>ALWAYS</condition>
+                    <triggerWithNoParameters>false</triggerWithNoParameters>
+                    <block>
+                        <buildStepFailureThreshold>
+                            <name>FAILURE</name>
+                            <ordinal>2</ordinal>
+                            <color>RED</color>
+                            <completeBuild>true</completeBuild>
+                        </buildStepFailureThreshold>
+                        <unstableThreshold>
+                            <name>UNSTABLE</name>
+                            <ordinal>1</ordinal>
+                            <color>YELLOW</color>
+                            <completeBuild>true</completeBuild>
+                        </unstableThreshold>
+                        <failureThreshold>
+                            <name>FAILURE</name>
+                            <ordinal>2</ordinal>
+                            <color>RED</color>
+                            <completeBuild>true</completeBuild>
+                        </failureThreshold>
+                    </block>
+                    <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
+                </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+            </configs>
+        </hudson.plugins.parameterizedtrigger.TriggerBuilder>
+    </builders>
+    <publishers/>
+    <buildWrappers/>
+</project>

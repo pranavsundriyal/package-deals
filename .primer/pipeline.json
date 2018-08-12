@@ -1,0 +1,145 @@
+{
+    "appName": "package-deals",
+    "description": null,
+    "disabled": false,
+    "name": "package-deals",
+    "owner": "Air Red Arrows",
+    "steps": [
+        {
+            "action": {
+                "name": "primerBuildsJenkins"
+            },
+            "actionId": "package-deals-master",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "Build_package-deals",
+            "params": {
+                "token": "masterBuild"
+            },
+            "successChildren": [
+                "DeployTest_package-deals",
+                "Fortify-Scan"
+            ],
+            "triggerType": "automatic"
+        },
+        {
+            "action": {
+                "name": "ewedeployJenkins"
+            },
+            "actionId": "ewetest_deploy-docker-ecs",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "DeployTest_package-deals",
+            "params": {
+                "jobParameters": {
+                    "PERFORM_RELEASE": "false",
+                    "ROLE_NAME": "package-deals"
+                },
+                "token": "ewetestEcsDeploy"
+            },
+            "successChildren": [
+                "ReleaseTest_package-deals"
+            ],
+            "triggerType": "automatic"
+        },
+        {
+            "action": {
+                "name": "primerBuildsJenkins"
+            },
+            "actionId": "package-deals-fortifyScan",
+            "description": "Fortify Scan",
+            "disabled": false,
+            "ignoreResult": true,
+            "name": "Fortify-Scan",
+            "params": {
+                "jobParameters": {},
+                "token": "fortifyScan"
+            },
+            "successChildren": [],
+            "triggerType": "automatic"
+        },
+        {
+            "action": {
+                "name": "ewedeployJenkins"
+            },
+            "actionId": "ewetest_release-docker-ecs",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "ReleaseTest_package-deals",
+            "params": {
+                "jobParameters": {
+                    "ROLE_NAME": "package-deals"
+                },
+                "token": "ewetestReleaseDockerEcs"
+            },
+            "successChildren": [
+                "Perf_package-deals"
+            ],
+            "triggerType": "automatic"
+        },
+        {
+            "action": {
+                "name": "eweperfJenkins"
+            },
+            "actionId": "primer-perftest-template",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "Perf_package-deals",
+            "params": {
+                "jobParameters": {
+                    "ENVIRONMENT": "test",
+                    "REGION": "us-west-2",
+                    "ROLE_NAME": "package-deals"
+                },
+                "token": "perfPrimerAutomationToken"
+            },
+            "successChildren": [
+                "DeployProd_package-deals"
+            ],
+            "triggerType": "automatic"
+        },
+        {
+            "action": {
+                "name": "ewedeployJenkins"
+            },
+            "actionId": "eweprod-ee_deploy-docker-ecs",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "DeployProd_package-deals",
+            "params": {
+                "jobParameters": {
+                    "ROLE_NAME": "package-deals"
+                },
+                "token": "eweprodeeEcsDeploy"
+            },
+            "successChildren": [
+                "ReleaseProd_package-deals"
+            ],
+            "triggerType": "manual"
+        },
+        {
+            "action": {
+                "name": "ewedeployJenkins"
+            },
+            "actionId": "eweprod-ee_release-docker-ecs",
+            "description": null,
+            "disabled": false,
+            "ignoreResult": false,
+            "name": "ReleaseProd_package-deals",
+            "params": {
+                "jobParameters": {
+                    "ROLE_NAME": "package-deals"
+                },
+                "token": "eweprodeeEcsRelease"
+            },
+            "successChildren": [],
+            "triggerType": "automatic"
+        }
+    ],
+    "team": "Air Red Arrows"
+}

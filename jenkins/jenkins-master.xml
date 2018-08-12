@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description>&lt;h3 style=&quot;color:blue&quot;&gt;Owner: &lt;a href=&quot;mailto:psundriyal@expedia.com&quot;&gt;psundriyal&lt;/a&gt;&lt;/h3&gt;&lt;h3 style=&quot;color:blue&quot;&gt;This job has been created by Primer&lt;/h3&gt;&lt;h4 style=&quot;color:red&quot;&gt;For permissions to this job, please contact the job owner.&lt;/h4&gt;</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.security.AuthorizationMatrixProperty>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:psundriyal</permission>
+            <permission>hudson.model.Item.Release:psundriyal</permission>
+            <permission>hudson.plugins.promoted_builds.Promotion.Promote:psundriyal</permission>
+            <permission>hudson.model.Run.Delete:psundriyal</permission>
+            <permission>hudson.model.Item.Workspace:authenticated</permission>
+            <permission>hudson.model.Item.Workspace:psundriyal</permission>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:psundriyal</permission>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:psundriyal</permission>
+            <permission>com.synopsys.arc.jenkins.plugins.ownership.OwnershipPlugin.Jobs:psundriyal</permission>
+            <permission>hudson.model.Run.Replay:authenticated</permission>
+            <permission>hudson.model.Run.Replay:psundriyal</permission>
+            <permission>hudson.model.Item.Configure:psundriyal</permission>
+            <permission>hudson.model.Item.Cancel:authenticated</permission>
+            <permission>hudson.model.Item.Cancel:psundriyal</permission>
+            <permission>hudson.model.Item.Delete:psundriyal</permission>
+            <permission>hudson.model.Item.Read:authenticated</permission>
+            <permission>hudson.model.Item.Read:psundriyal</permission>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:authenticated</permission>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:psundriyal</permission>
+            <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:psundriyal</permission>
+            <permission>hudson.model.Item.Build:authenticated</permission>
+            <permission>hudson.model.Item.Build:psundriyal</permission>
+            <permission>hudson.model.Item.ExtendedRead:psundriyal</permission>
+            <permission>hudson.scm.SCM.Tag:authenticated</permission>
+            <permission>hudson.scm.SCM.Tag:psundriyal</permission>
+            <permission>hudson.model.Item.Move:psundriyal</permission>
+            <permission>hudson.model.Item.Discover:psundriyal</permission>
+            <permission>hudson.model.Item.ViewStatus:authenticated</permission>
+            <permission>hudson.model.Item.ViewStatus:anonymous</permission>
+            <permission>hudson.model.Item.ViewStatus:psundriyal</permission>
+            <permission>hudson.model.Run.Update:psundriyal</permission>
+        </hudson.security.AuthorizationMatrixProperty>
+        <jenkins.model.BuildDiscarderProperty>
+            <strategy class="hudson.tasks.LogRotator">
+                <daysToKeep>-1</daysToKeep>
+                <numToKeep>20</numToKeep>
+                <artifactDaysToKeep>-1</artifactDaysToKeep>
+                <artifactNumToKeep>5</artifactNumToKeep>
+            </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.18.1">
+            <doNotScan>false</doNotScan>
+        </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
+        <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.9.1">
+            <ownership>
+                <ownershipEnabled>true</ownershipEnabled>
+                <primaryOwnerId>psundriyal</primaryOwnerId>
+                <coownersIds class="sorted-set"/>
+            </ownership>
+        </com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty>
+        <org.jenkinsci.plugins.mavenrepocleaner.MavenRepoCleanerProperty plugin="maven-repo-cleaner@1.2">
+            <notOnThisProject>false</notOnThisProject>
+        </org.jenkinsci.plugins.mavenrepocleaner.MavenRepoCleanerProperty>
+        <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+            <optOut>false</optOut>
+        </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+        <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+            <autoRebuild>false</autoRebuild>
+            <rebuildDisabled>false</rebuildDisabled>
+        </com.sonyericsson.rebuild.RebuildSettings>
+        <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty plugin="jenkinswalldisplay@0.6.33"/>
+        <org.jvnet.hudson.plugins.shelveproject.ShelveProjectProperty plugin="shelve-project-plugin@1.5"/>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>git@ewegithub.sb.karmalab.net:EWE/package-deals.git</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>refs/heads/master</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.UserExclusion>
+                <excludedUsers>ewe-jenkins
+ewbldsup
+jenkins
+*jenkins*</excludedUsers>
+            </hudson.plugins.git.extensions.impl.UserExclusion>
+            <hudson.plugins.git.extensions.impl.PerBuildTag/>
+            <hudson.plugins.git.extensions.impl.LocalBranch>
+                <localBranch>master</localBranch>
+            </hudson.plugins.git.extensions.impl.LocalBranch>
+        </extensions>
+    </scm>
+    <assignedNode>amazon&amp;&amp;linux</assignedNode>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <jdk>jdk-8u131</jdk>
+    <triggers>
+        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.26.1">
+            <spec></spec>
+        </com.cloudbees.jenkins.GitHubPushTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Maven>
+            <targets>clean dependency:tree install -DoutputFile=target/dependency.txt -DchangeNumber=$GIT_COMMIT -DbuildType=release -DbuildNumber=$BUILD_NUMBER -DbuildBranch=$GIT_BRANCH -DdepotInfo=git@ewegithub.sb.karmalab.net:git@ewegithub.sb.karmalab.net:EWE/package-deals.git/package-deals.git -DscmCommentPrefix=&apos;$JOB_NAME $BUILD_NUMBER [maven-release-plugin]&apos;</targets>
+            <mavenName>maven-3.3.9</mavenName>
+            <usePrivateRepository>false</usePrivateRepository>
+            <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+            <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+            <injectBuildVariables>true</injectBuildVariables>
+        </hudson.tasks.Maven>
+        <com.cloudbees.dockerpublish.DockerBuilder plugin="docker-build-publish@1.3.2">
+            <server plugin="docker-commons@1.6"/>
+            <registry plugin="docker-commons@1.6">
+                <url>https://docker-registry.tools.expedia.com</url>
+                <credentialsId>fd65b4fd-e509-42a9-9b5e-5b1fbacc7a97</credentialsId>
+            </registry>
+            <repoName>library/package-deals</repoName>
+            <noCache>false</noCache>
+            <forcePull>false</forcePull>
+            <skipBuild>false</skipBuild>
+            <skipDecorate>false</skipDecorate>
+            <repoTag>$GIT_COMMIT</repoTag>
+            <skipPush>false</skipPush>
+            <createFingerprint>false</createFingerprint>
+            <skipTagLatest>true</skipTagLatest>
+            <buildAdditionalArgs></buildAdditionalArgs>
+            <forceTag>false</forceTag>
+        </com.cloudbees.dockerpublish.DockerBuilder>
+        <hudson.tasks.Shell>
+            <command>rm -rf primer-scripts;
+mkdir primer-scripts;
+s3cmd --verbose get s3://ewe-softwares/builds/git@ewegithub.sb.karmalab.net:EWE/primer-scripts.git/primer-scripts.tar.gz primer-scripts/;
+tar -xzvf primer-scripts/primer-scripts.tar.gz -C primer-scripts/;
+bash ./primer-scripts/run_primerscript.sh;
+</command>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers>
+        <hudson.plugins.s3.S3BucketPublisher plugin="s3@0.10.11">
+            <profileName>ewebuilder</profileName>
+            <entries>
+                <hudson.plugins.s3.Entry>
+                    <bucket>ewe-softwares/builds/git@ewegithub.sb.karmalab.net:git@ewegithub.sb.karmalab.net:EWE/package-deals.git/package-deals.git/$GIT_COMMIT</bucket>
+                    <sourceFile>target/dependency.txt</sourceFile>
+                    <excludedFile></excludedFile>
+                    <storageClass>STANDARD</storageClass>
+                    <selectedRegion>us-east-1</selectedRegion>
+                    <noUploadOnFailure>false</noUploadOnFailure>
+                    <uploadFromSlave>false</uploadFromSlave>
+                    <managedArtifacts>false</managedArtifacts>
+                    <useServerSideEncryption>false</useServerSideEncryption>
+                    <flatten>false</flatten>
+                    <gzipFiles>false</gzipFiles>
+                    <showDirectlyInBrowser>false</showDirectlyInBrowser>
+                    <keepForever>false</keepForever>
+                </hudson.plugins.s3.Entry>
+            </entries>
+            <dontWaitForConcurrentBuildCompletion>false</dontWaitForConcurrentBuildCompletion>
+            <consoleLogLevel>
+                <name>INFO</name>
+                <value>800</value>
+                <resourceBundleName>sun.util.logging.resources.logging</resourceBundleName>
+            </consoleLogLevel>
+            <pluginFailureResultConstraint>
+                <name>FAILURE</name>
+                <ordinal>2</ordinal>
+                <color>RED</color>
+                <completeBuild>true</completeBuild>
+            </pluginFailureResultConstraint>
+            <userMetadata/>
+        </hudson.plugins.s3.S3BucketPublisher>
+    </publishers>
+    <buildWrappers>
+        <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.18">
+            <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
+                <timeoutMinutes>15</timeoutMinutes>
+            </strategy>
+            <operationList>
+                <hudson.plugins.build__timeout.operations.AbortOperation/>
+            </operationList>
+        </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
+        <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.3">
+            <colorMapName>xterm</colorMapName>
+        </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    </buildWrappers>
+</project>
