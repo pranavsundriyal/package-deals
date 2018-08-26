@@ -23,6 +23,8 @@ public class SqlQueryGenerator {
     public static List<String> southamerica = Arrays.asList("GIG", "CTG", "LIM", "SJO", "SCL", "EZE", "TZA","GRU","BOG","PTY", "EZE", "SDQ");
     public static List<String> austrailia = Arrays.asList("SYD", "MEL", "ADL", "CBR");
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static  List<String> euro = Arrays.asList("CDG", "LHR", "ZRH", "BRU","BCN","MAD", "AMS");
+
 
 
 
@@ -39,7 +41,7 @@ public class SqlQueryGenerator {
 
         public static String generateQuery(String origin, List<String> destinations, int noOfDays, int dayOfWeek) {
 
-        LocalDate searchDate = LocalDate.now().minusDays(3);
+        LocalDate searchDate = LocalDate.now().minusDays(2);
 
 
         String query = "(select distinct pack.total_price as pack_price, pub.total_price as sa_price," +
@@ -76,28 +78,39 @@ public class SqlQueryGenerator {
         return query;
     }
 
+    public static String generateMultiOriginSimpleQuery(List<String> origins, List<String> destinations, int noOfDays, int dayOfWeek) {
+
+        String query = generateQuery(origins.get(0), destinations, noOfDays, dayOfWeek);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateSimpleQuery(origins.get(i), destinations, noOfDays, dayOfWeek);
+            query = query+ UNION + subQuery;
+        }
+        return query;
+    }
+
     public static String generateSimpleQuery(String origin, List<String> destinations, int noOfDays, int dayOfWeek) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate searchDate = LocalDate.now().minusDays(2);
 
 
-        String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights, cabin_class\n" +
+        String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                 "from ods.air_search_results \n" +
                 "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '"+origin+"' and inbound_airport like '"+destinations.get(0)+"'  and\n" +
                 "datediff(day, outbound_date, inbound_date) = "+noOfDays+" and date_part(dow, outbound_date)= "+dayOfWeek+" and trip_type like 'roundtrip' and \n" +
                 " fare_type like 'package net' \n" +
                 "order by total_price \n" +
-                "limit 100)";
+                "limit 400)";
 
         for (int i = 1; i < destinations.size();i++) {
-            String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights, cabin_class\n" +
+            String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                     "from ods.air_search_results" +"\n" +
                     "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '"+origin+"' and inbound_airport like '"+destinations.get(i)+"'  and\n" +
                     "datediff(day, outbound_date, inbound_date) = "+noOfDays+" and date_part(dow, outbound_date)= "+dayOfWeek+" and trip_type like 'roundtrip' and \n" +
                     "fare_type like 'package net' \n" +
                     "order by total_price \n" +
-                    "limit 100)";
+                    "limit 400)";
 
             query = query+ UNION + subQuery;
         }
@@ -183,28 +196,38 @@ public class SqlQueryGenerator {
     }
 
 
+    public static String generateMultiOriginSuperSimpleQuery(List<String> origins, List<String> destinations) {
+
+        String query = generateSuperSimpleQuery(origins.get(0), destinations);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateSuperSimpleQuery(origins.get(i), destinations);
+            query = query+ UNION + subQuery;
+        }
+        return query;
+    }
     public static String generateSuperSimpleQuery(String origin, List<String> destinations) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate searchDate = LocalDate.now().minusDays(3);
+        LocalDate searchDate = LocalDate.now().minusDays(1);
 
 
-        String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights, cabin_class\n" +
+        String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                 "from ods.air_search_results \n" +
                 "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(0) + "'  and\n" +
                 "trip_type like 'roundtrip' and \n" +
                 " fare_type like 'package net' \n" +
                 "order by total_price \n" +
-                "limit 10)";
+                "limit 200)";
 
         for (int i = 1; i < destinations.size(); i++) {
-            String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights, cabin_class\n" +
+            String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                     "from ods.air_search_results" + "\n" +
                     "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(i) + "'  and\n" +
                     "trip_type like 'roundtrip' and \n" +
                     "fare_type like 'package net' \n" +
                     "order by total_price \n" +
-                    "limit 10)";
+                    "limit 200)";
 
             query = query + UNION + subQuery;
         }

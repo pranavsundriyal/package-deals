@@ -1,21 +1,21 @@
 package deals.cache;
 
-import deals.service.RedshiftConnector;
-import deals.service.TopDestinationService;
-import deals.sql.SqlQueryGenerator;
+import deals.service.CheapestPackageService;
+import deals.service.PackageDealService;
+import deals.sort.Sort;
+import deals.sql.model.Deals;
 import deals.sql.model.PackageDeal;
 import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static deals.util.Util.addValues;
 import static deals.util.Util.sort;
 
 /**
@@ -26,16 +26,17 @@ public class CacheManager {
 
     private HashMap<String,List<PackageDeal>> packageDealMap;
 
-    public  static  List<String> euro = Arrays.asList("CDG", "LHR", "ZRH", "BRU","BCN","MAD", "AMS");
+    @Autowired
+    private CheapestPackageService cheapestPackageService;
 
     @Autowired
-    RedshiftConnector redshiftConnector;
+    private XmlUtil xmlUtil;
 
     @Autowired
-    TopDestinationService topDestinationService;
+    private Sort sort;
 
-    @Autowired
-    XmlUtil xmlUtil;
+    @Value("${settings.readFromCache}")
+    private boolean readFromCache;
 
     public CacheManager() {
         packageDealMap = new HashMap<>();
@@ -54,7 +55,6 @@ public class CacheManager {
                 packageDealMap.put(key,dealList);
             }
         }
-
         return true;
     }
 
@@ -78,7 +78,7 @@ public class CacheManager {
                 packageDeals.addAll(packageDealMap.get(key));
             }
          }
-        sort(packageDeals);
+        sort.sortByComparators(packageDeals);
         return packageDeals;
     }
 
@@ -92,14 +92,18 @@ public class CacheManager {
     @Scheduled(fixedRate = 86400000)
     public void clearCache() {
         packageDealMap = new HashMap<>();
+        List<PackageDeal> packageDeals;
 
-        String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList("SEA", "ORD"), euro, 5,5);
-        //List<String> dest =  topDestinationService.execute(SqlQueryGenerator.generateTopDest("SEA"));
-        //List<PackageDeal> packageDeals = redshiftConnector.execute(SqlQueryGenerator.generateQuery("SEA", dest, 5,5));
-        //List<PackageDeal> packageDeals = redshiftConnector.execute(query);
+        if(readFromCache) {
+            packageDeals = xmlUtil.read();
 
-        List<PackageDeal> packageDeals = xmlUtil.read();
-        packageDeals = addValues(packageDeals);
+        } else {
+            //packageDeals = packageDealService.execute();
+            packageDeals = cheapestPackageService.execute();
+            Deals deals = new Deals();
+            deals.setPackageDeals(packageDeals);
+        }
+
         cacheDeals(packageDeals);
     }
 }

@@ -1,14 +1,17 @@
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/util/Util.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/service/TopDestinationService.java
+/Users/psundriyal/expedia/package-deals/src/main/java/deals/service/CheapestPackageService.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/controller/DealsController.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/xml/XmlUtil.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/cache/CacheManager.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sql/SqlQueryGenerator.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/service/RedshiftConnector.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sql/model/PackageDeal.java
+/Users/psundriyal/expedia/package-deals/src/main/java/deals/service/GenericRedshiftConnector.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sql/model/Deals.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/Application.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/local/JsonDeals.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sort/SortByPackagePrice.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/model/json/Deal.java
+/Users/psundriyal/expedia/package-deals/src/main/java/deals/service/PackageDealService.java
 /Users/psundriyal/expedia/package-deals/src/main/java/deals/sort/SortBySavings.java

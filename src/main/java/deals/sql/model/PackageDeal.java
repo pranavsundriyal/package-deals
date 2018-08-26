@@ -3,6 +3,7 @@ package deals.sql.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class PackageDeal {
 
     Double packageNetPrice;
     Double standalonePrice;
+    Timestamp outboundDateTime;
+    Timestamp inboundDateTime;
     String outboundDate;
     String inboundDate;
     String flightNo;
@@ -27,12 +30,12 @@ public class PackageDeal {
 
     }
 
-    public PackageDeal(Double packageNetPrice, Double standalonePrice, String outboundDate, String inboundDate,
+    public PackageDeal(Double packageNetPrice, Double standalonePrice, Timestamp outboundDateTime, Timestamp inboundDateTime,
                        String flightNo, String origin, String destination) {
         this.packageNetPrice = packageNetPrice;
         this.standalonePrice = standalonePrice;
-        this.outboundDate = outboundDate;
-        this.inboundDate = inboundDate;
+        this.outboundDateTime = outboundDateTime;
+        this.inboundDateTime = inboundDateTime;
         this.flightNo = flightNo;
         this.origin = origin;
         this.destination = destination;
@@ -60,22 +63,6 @@ public class PackageDeal {
 
     public void setFlightNo(String flightNo) {
         this.flightNo = flightNo;
-    }
-
-    public String getOutboundDate() {
-        return outboundDate;
-    }
-
-    public void setOutboundDate(String outboundDate) {
-        this.outboundDate = outboundDate;
-    }
-
-    public String getInboundDate() {
-        return inboundDate;
-    }
-
-    public void setInboundDate(String inboundDate) {
-        this.inboundDate = inboundDate;
     }
 
     public String getOrigin() {
@@ -110,5 +97,35 @@ public class PackageDeal {
         this.savings = savings;
     }
 
+    public Timestamp getOutboundDateTime() {
+        return outboundDateTime;
+    }
 
+    public void setOutboundDateTime(Timestamp outboundDateTime) {
+        this.outboundDateTime = outboundDateTime;
+    }
+
+    public Timestamp getInboundDateTime() {
+        return inboundDateTime;
+    }
+
+    public void setInboundDateTime(Timestamp inboundDateTime) {
+        this.inboundDateTime = inboundDateTime;
+    }
+
+    public String getOutboundDate() {
+        return outboundDate;
+    }
+
+    public void setOutboundDate(String outboundDate) {
+        this.outboundDate = outboundDate;
+    }
+
+    public String getInboundDate() {
+        return inboundDate;
+    }
+
+    public void setInboundDate(String inboundDate) {
+        this.inboundDate = inboundDate;
+    }
 }

@@ -1,14 +1,16 @@
 package deals.service;
 
 
-import deals.sql.model.Deals;
-import deals.sql.model.PackageDeal;
-import deals.xml.XmlUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -25,14 +27,11 @@ public class RedshiftConnector {
 
     private Logger log = Logger.getLogger(RedshiftConnector.class.getName());
 
-    @Autowired
-    XmlUtil xmlWriter;
-
-    public List<PackageDeal> execute(String query) {
+    public ResultSet execute(String query) {
         Connection conn = null;
         Statement stmt = null;
-
-        List<PackageDeal> deals = new ArrayList<>();
+        ResultSet rs= null;
+        List<Object> rowData = new ArrayList<>();
         try{
             //Dynamically load driver at runtime.
             //Redshift JDBC 4.1 driver: com.amazon.redshift.jdbc41.Driver
@@ -53,26 +52,43 @@ public class RedshiftConnector {
             log.info("Listing system tables...");
             stmt = conn.createStatement();
 
-            ResultSet rs = stmt.executeQuery(query);
+            rs = stmt.executeQuery(query);
 
-            //Get the data from the result set.
-            while(rs.next()){
-                log.info(rs.getDouble("pack_price")+" | "+ rs.getDouble("sa_price"));
-                deals.add(new PackageDeal(rs.getDouble("pack_price"),
-                        rs.getDouble("sa_price"),
-                        rs.getString("outbound_departure_time"),
-                        rs.getString("inbound_arrival_time"),
-                        rs.getString("marketing_flights"),
-                        rs.getString("outbound_airport"),
-                        rs.getString("inbound_airport")));
+            List<String> columnNames = new ArrayList<>();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                columnNames.add(rsmd.getColumnLabel(i));
+            }
+
+            int rowIndex = 0;
+            while (rs.next()) {
+                rowIndex++;
+                // collect row data as objects in a List
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    //rowData.add(rs.getObject(i));
+                }
+                // for test purposes, dump contents to check our results
+                // (the real code would pass the "rowData" List to some other routine)
+                System.out.printf("Row %d%n", rowIndex);
+                List<Object> colObjects = new ArrayList<>();
+
+                for (int colIndex = 0; colIndex < rsmd.getColumnCount(); colIndex++) {
+                    String objType = "null";
+                    String objString = "";
+                    Object columnObject = rowData.get(colIndex);
+                    if (columnObject != null) {
+                        objString = columnObject.toString() + " ";
+                        objType = columnObject.getClass().getName();
+                    }
+                    log.info(columnNames.get(colIndex)+" | "+objString+" | "+ objType);
+                }
 
             }
-            Deals dealsList = new Deals();
-            dealsList.setPackageDeals(deals);
-            xmlWriter.write(dealsList);
-            rs.close();
+
+            //Get the data from the result set.
             stmt.close();
             conn.close();
+            rs.close();
         }catch(Exception ex){
             //For convenience, handle all errors here.
             ex.printStackTrace();
@@ -91,6 +107,6 @@ public class RedshiftConnector {
             }
         }
         log.info("Finished connectivity test.");
-        return deals;
+        return rs;
     }
 }

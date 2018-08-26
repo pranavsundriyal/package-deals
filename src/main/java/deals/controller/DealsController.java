@@ -1,6 +1,7 @@
 package deals.controller;
 
 import deals.cache.CacheManager;
+import deals.service.PackageDealService;
 import deals.sql.SqlQueryGenerator;
 import deals.sql.model.PackageDeal;
 import deals.model.json.Deal;
@@ -28,16 +29,14 @@ public class DealsController {
     HashMap<String,List<Deal>> dealMap;
 
     @Autowired
-    RedshiftConnector redshiftConnector;
+    PackageDealService packageDealService;
 
     @Autowired
     CacheManager cacheManager;
 
     @RequestMapping(value = "/getRedshiftDeals")
     public List<PackageDeal> getDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
-
-        String query = SqlQueryGenerator.generateSimpleQuery(origin, SqlQueryGenerator.europe);
-        List<PackageDeal> deals = redshiftConnector.execute(query);
+        List<PackageDeal> deals = packageDealService.execute();
         cacheManager.cacheDeals(deals);
         return deals;
     }
@@ -57,7 +56,6 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin,dest);
         } else {
             deals = cacheManager.getCachedDeals(origin);
-
         }
         return deals;
     }

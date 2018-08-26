@@ -95,4 +95,11 @@ public class SqlQueryTest {
         System.out.println(query);
         Assert.notNull(query);
     }
+
+    @Test
+    public  void buildMultiOriginSimple() {
+        String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList("SEA","ORD"),europe);
+        System.out.println(query);
+        Assert.notNull(query);
+    }
 }

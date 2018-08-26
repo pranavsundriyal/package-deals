@@ -1,12 +1,13 @@
 package deals.util;
 
-import deals.sort.SortByPackagePrice;
-import deals.sort.SortBySavings;
+import deals.sort.PackagePriceComparator;
 import deals.sql.model.PackageDeal;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,17 +16,21 @@ import java.util.List;
 public  class Util {
 
     public static String endpoint = "https://www.expedia.com/Hotel-Search?packageType=fh&searchProduct=hotel";
+    public static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    public static List<PackageDeal> addValues(List<PackageDeal> packageDeals) {
+
+    public static List<PackageDeal> addValues(List<PackageDeal> packageDeals, boolean calculateSavings) {
         for(PackageDeal packageDeal : packageDeals) {
+            if (calculateSavings) {
+                packageDeal.setSavings(calculateSavings(packageDeal));
+            }
+            packageDeal.setOutboundDate(truncateDate(packageDeal.getOutboundDateTime().toString()));
+            packageDeal.setInboundDate(truncateDate(packageDeal.getInboundDateTime().toString()));
             packageDeal.setUrl(Util.generateUrl(packageDeal));
-            packageDeal.setSavings(calculateSavings(packageDeal));
-            packageDeal.setOutboundDate(truncateDate(packageDeal.getOutboundDate()));
-            packageDeal.setInboundDate(truncateDate(packageDeal.getInboundDate()));
-            packageDeal.setPackageNetPrice(packageDeal.getPackageNetPrice()+500);
         }
         return packageDeals;
     }
+
 
     public static String generateUrl(PackageDeal packageDeal) {
         try {
@@ -60,9 +65,19 @@ public  class Util {
     }
 
     public static List<PackageDeal> sort(List<PackageDeal> packageDeals) {
-        Collections.sort(packageDeals, new SortBySavings());
-        Collections.sort(packageDeals, new SortByPackagePrice());
+        //Collections.sort(packageDeals, new SortBySavings());
+        Collections.sort(packageDeals, new PackagePriceComparator());
         return packageDeals;
+    }
+
+    public static Date convertToDate(String date) {
+        Date d = null;
+        try {
+            d = dateFormatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d;
     }
 
 }

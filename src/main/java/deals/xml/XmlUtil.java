@@ -12,7 +12,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.List;
 
-
 /**
  * Created by psundriyal on 7/8/18.
  */
@@ -34,7 +33,6 @@ public class XmlUtil {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             jaxbMarshaller.marshal(deals, file);
-            //jaxbMarshaller.marshal(deals, System.out);
 
         } catch (JAXBException e) {
             e.printStackTrace();

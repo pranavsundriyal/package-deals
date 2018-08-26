@@ -1,4 +1,5 @@
 CreateSqlQueryTest.class
 SqlQueryTest.class
 XmlTest.class
+UtilTest.class
 JsonDealTest.class
