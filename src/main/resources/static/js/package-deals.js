@@ -21,10 +21,13 @@ $(document).ready(function() {
 
                 for(var i=0; i<data.length; i++) {
                     totalDeals = data.length;
-                    $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener noreferrer" style="text-decoration : none" href="' + data[i].url + '"><div class="package-price"><h3>Package Price: $'
-                        + data[i].packageNetPrice + '</h3></div><div class="savings"><h4><b>Savings ' + twoDigitPrices(data[i].savings) +'%<b></h4></div><div><h5>Origin: ' + data[i].origin+ '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
-                        + '<div><h5>Outbound Date & Time: ' + data[i].outboundDate + '</h5></div><div><h5>Inbound Date & Time: '
-                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo +'</h5></div></a><br></div>');
+                    $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener noreferrer" style="text-decoration : none" href="' + data[i].url
+                        + '"><div class="package-price"><h5><b>Approx. Package Price: $'
+                        + twoDigitPrices(data[i].packageNetPrice) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
+                        + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div><div><h5>Journey End Time: '
+                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo +'</h5></div>' +
+                        '<div class="savings"><h4><b>Approx. Savings ' + twoDigitPrices(data[i].savings) +'%<b></h4></div></a><br></div>');
                 }
             },
             error: function(data) {
@@ -34,10 +37,10 @@ $(document).ready(function() {
     });
 
     function twoDigitPrices(savings) {
-        return savings.toFixed(1);
+        return savings.toFixed(2);
     }
 
-    $("#search").click(function () {
+  /*  $("#search").click(function () {
         var timeInSecs;
         var ticker;
 
@@ -70,4 +73,5 @@ $(document).ready(function() {
         }
         startTimer(31);
     });
+   */
 });

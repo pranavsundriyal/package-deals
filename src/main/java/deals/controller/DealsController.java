@@ -62,5 +62,4 @@ public class DealsController {
         return deals;
     }
 
-
 }

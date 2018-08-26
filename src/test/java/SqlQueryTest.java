@@ -23,7 +23,7 @@ public class SqlQueryTest {
     @Test
     public void buildEuroQueryTest(){
 
-        String query = SqlQueryGenerator.generateQuery("ORD", europe, 5,5);
+        String query = SqlQueryGenerator.generateQuery("SEA", europe, 5,5);
         System.out.println(query);
         Assert.notNull(query);
     }
@@ -76,7 +76,7 @@ public class SqlQueryTest {
 
     @Test
     public void buildAnyDayQueryTest() {
-        String query  = SqlQueryGenerator.generateAnyDayOfWeekQuery("ORD", europe, 5);
+        String query  = SqlQueryGenerator.generateSimpleQuery("SEA", europe);
         System.out.println(query);
         Assert.notNull(query);
     }

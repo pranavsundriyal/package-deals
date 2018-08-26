@@ -5,6 +5,7 @@ import deals.sort.SortBySavings;
 import deals.sql.model.PackageDeal;
 import org.apache.http.client.utils.URIBuilder;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public  class Util {
             packageDeal.setSavings(calculateSavings(packageDeal));
             packageDeal.setOutboundDate(truncateDate(packageDeal.getOutboundDate()));
             packageDeal.setInboundDate(truncateDate(packageDeal.getInboundDate()));
+            packageDeal.setPackageNetPrice(packageDeal.getPackageNetPrice()+500);
         }
         return packageDeals;
     }
@@ -32,6 +34,7 @@ public  class Util {
             uri.addParameter("destination", packageDeal.getDestination());
             uri.addParameter("startDate", formatDate(packageDeal.getOutboundDate()));
             uri.addParameter("endDate", formatDate(packageDeal.getInboundDate()));
+            uri.addParameter("adults","1");
             return uri.toString();
         } catch (Exception e){
             System.out.print(e);
@@ -61,4 +64,5 @@ public  class Util {
         Collections.sort(packageDeals, new SortByPackagePrice());
         return packageDeals;
     }
+
 }
