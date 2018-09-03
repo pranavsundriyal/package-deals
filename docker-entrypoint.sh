@@ -49,7 +49,7 @@ ${JAVA_OPTS_EXTRA}"
 
 if [ "$1" = 'service' ]; then
     echo ${ACTIVE_VERSION} > ${APP_HOME}/active.txt
-    exec java ${JAVA_OPTS} -jar "${APP_BIN}/package-deals.jar" ${APP_ARGS}
+    exec java ${JAVA_OPTS} -jar "${APP_BIN}/package-deals-0.1.0.jar" ${APP_ARGS}
 fi
 
 exec "$@"
