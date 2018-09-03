@@ -7,4 +7,4 @@ ENV APP_NAME=package-deals \
 COPY docker-entrypoint.sh /
 
 # Install application
-COPY target/package-deals.jar /app/bin/
+COPY target/package-deals-0.1.0.jar /app/bin/
