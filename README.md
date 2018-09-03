@@ -1,21 +1,34 @@
-## Getting Started
-Applications are generated using [Yeoman](http://yeoman.io), and the `generator-cs-spring-boot` generator.
-You start with a empty repository you can customize running more generators.
+# package-deals
+Greatest Savings Ever
 
-If you already have _Node.js_, _Yeoman_ and _generator-cs-spring-boot_, skip to **Step 3**.
+## Run 
+~~~~
+mvn spring-boot:run
 
-### Step 1
-* Install or update _Node.js_, version **8.6.0** or greater. _macOs_: `brew install node`;.
-* Install or update _Yeoman_, version **2.0.0** or greater: `npm install -g yo`
+run localhost:8080 in web browser
+~~~~
 
-### Step 2
-Install the generator: 
-```bash
-npm install -g generator-cs-spring-boot --registry=http://nexuslab.alm/nexus/content/groups/npm-all/
-```
+## What is it?
+~~~~
+- Find Package deals with huge discounts. Package deals which are in 1 percentile of the discounts given world over. 
 
-### Step 3
-Complete you application generation, the interactive CLI menu will guide the way:
-```bash
-yo cs-spring-boot:fast-fuse --force
-```
+- All package deals mined in the project have at least 50 % of savings just on flight actual saving are much more depending on the package discounts on selected hotels. 
+
+- These deals work with all types of hotels.
+
+- So book fast as deals with higher saving tend to expire early!
+~~~~
+
+## How it works?
+~~~~
+Uses redshift jobs to mine based on the set algorithms. Job runs once evryday to get deals and then processes the data to sort the best deals
+~~~~
+
+## Show me it in action!
+run it and try it out in web browser
+
+## What's next?
+
+Would like to roll it out many more places. 
+
+Feel free to contact us if you any questions!
