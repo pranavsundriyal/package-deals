@@ -40,6 +40,16 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.codahale.metrics</groupId>
+            <artifactId>metrics-servlet</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.expedia.www.platform</groupId>
+            <artifactId>platform-isactive</artifactId>
+            <version>1.1.15</version>
+        </dependency>
 
         <!-- end::actuator[] -->
         <!-- tag::tests[] -->
