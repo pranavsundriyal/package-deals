@@ -4,18 +4,37 @@
       "min_count": 1,
       "max_count": 2
     },
-    "instance": {
+    "isactive_support": {
+      "enabled": true,
+      "file": "/opt/package-deals/active.txt"
+    },
+    "instances": {
       "subnet_purpose": "app",
       "ports": [
         {
           "port": "22",
           "protocol": "tcp",
           "visibility": "internal"
+        },
+        {
+          "port": "8443",
+          "protocol": "https",
+          "visibility": "internal"
+        },
+        {
+          "port": "8080",
+          "protocol": "http",
+          "visibility": "internal"
         }
       ]
     },
     "loadbalancer": {
       "scheme": "internet-facing",
+      "https_enabled": true,
+      "http_enabled": false ,
+      "timeout": 60,
+      "connection_draining": true,
+      "connection_draining_timeout": 60,
       "health_check": {
         "instance_port": 8443,
         "ping_path": "/isActive",
