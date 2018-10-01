@@ -42,6 +42,22 @@ public class CacheManager {
         packageDealMap = new HashMap<>();
     }
 
+    @Scheduled(fixedRate = 86400000)
+    public void clearCache() {
+        packageDealMap = new HashMap<>();
+        List<PackageDeal> packageDeals;
+
+        if(readFromCache) {
+            packageDeals = xmlUtil.read();
+
+        } else {
+            packageDeals = cheapestPackageService.execute();
+            Deals deals = new Deals();
+            deals.setPackageDeals(packageDeals);
+        }
+
+        cacheDeals(packageDeals);
+    }
     public boolean cacheDeals(List<PackageDeal> packageDeals) {
         for (PackageDeal deal : packageDeals) {
             String key = generateKey(deal.getOrigin(), deal.getDestination());
@@ -89,21 +105,5 @@ public class CacheManager {
 
     }
 
-    @Scheduled(fixedRate = 86400000)
-    public void clearCache() {
-        packageDealMap = new HashMap<>();
-        List<PackageDeal> packageDeals;
 
-        if(readFromCache) {
-            packageDeals = xmlUtil.read();
-
-        } else {
-            //packageDeals = packageDealService.execute();
-            packageDeals = cheapestPackageService.execute();
-            Deals deals = new Deals();
-            deals.setPackageDeals(packageDeals);
-        }
-
-        cacheDeals(packageDeals);
-    }
 }

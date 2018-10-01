@@ -26,10 +26,7 @@ $(document).ready(function() {
                         + twoDigitPrices(data[i].packageNetPrice) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
                         + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div><div><h5>Journey End Time: '
-                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo
-                        /* '</h5></div>' +
-                        '<div class="savings"><h4><b>Approx. Savings ' + twoDigitPrices(data[i].savings) +
-                        '%+'<b></h4></div>*/+'</a><br></div>');
+                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo+ '<b></h4></div></a><br></div>');
                 }
             },
             error: function(data) {
