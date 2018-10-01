@@ -40,7 +40,7 @@ public class CheapestPackageService {
         world.addAll(usa);
         world.addAll(southamerica);
         world.addAll(austrailia);
-        String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList( "ORD"), Arrays.asList( "SEA"));
+        String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList( "ORD"), europe);
         List<List<Object>> objects = genericRedshiftConnector.execute(query);
 
         for(List<Object> objectList : objects) {

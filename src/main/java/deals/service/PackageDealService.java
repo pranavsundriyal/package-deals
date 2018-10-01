@@ -32,7 +32,7 @@ public class PackageDealService {
 
     public List<PackageDeal> execute() {
         List<PackageDeal> packageDeals = new ArrayList<>();
-        String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList( "ORD"), euro, 5,5);
+        String query = SqlQueryGenerator.generateMultiOriginOrQuery(Arrays.asList( "ORD"), euro, 4,5);
         List<List<Object>> objects = genericRedshiftConnector.execute(query);
         for(List<Object> objectList : objects) {
             packageDeals.add(new PackageDeal((Double) objectList.get(0),
