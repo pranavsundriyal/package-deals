@@ -1,2 +1,8 @@
 settings:
-  readFromCache: true
+  readFromCache: false
+
+spring:
+  application:
+    name: package-deals
+  profiles:
+      active: dev

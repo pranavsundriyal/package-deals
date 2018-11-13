@@ -25,6 +25,7 @@ public class SqlQueryGenerator {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static  List<String> euro = Arrays.asList("CDG", "LHR", "ZRH", "BRU","BCN","MAD", "AMS");
 
+    public static List<String> topUsa = Arrays.asList("CUN","LAS", "LAX", "PHX", "PUJ", "MIA", "MBJ", "PVR", "SJO", "ZIH", "PTY", "SJU", "MCO", "DEN", "GCM", "HUX");
 
 
 
@@ -117,6 +118,17 @@ public class SqlQueryGenerator {
         return query;
     }
 
+    public static String generateMultiOriginAnyDayQuery(List<String> origins, List<String> destinations, int noOfDays) {
+
+        String query = generateAnyDayOfWeekQuery(origins.get(0), destinations, noOfDays);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateAnyDayOfWeekQuery(origins.get(i), destinations,noOfDays);
+            query = query+ UNION + subQuery;
+        }
+        return query;
+    }
+
     public static String generateAnyDayOfWeekQuery(String origin, List<String> destinations, int noOfDays) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -153,6 +165,17 @@ public class SqlQueryGenerator {
                     "limit 100)";
 
             query = query + UNION + subQuery;
+        }
+        return query;
+    }
+
+    public static String generateMultiOriginSimpleQuery(List<String> origins, List<String> destinations) {
+
+        String query = generateSimpleQuery(origins.get(0), destinations);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateSimpleQuery(origins.get(i), destinations);
+            query = query+ UNION + subQuery;
         }
         return query;
     }
@@ -234,7 +257,43 @@ public class SqlQueryGenerator {
         return query;
     }
 
-    public static String generateTopDest(String origin) {
+    public static String generateMultiOriginCheapQuery(List<String> origins, List<String> destinations, int limit) {
+
+        String query = generateCheapQuery(origins.get(0), destinations, limit);
+
+        for (int i = 1; i < origins.size();i++) {
+            String subQuery = generateCheapQuery(origins.get(i), destinations, limit);
+            query = query+ UNION + subQuery;
+        }
+        return query;
+    }
+    public static String generateCheapQuery(String origin, List<String> destinations, int limit) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate searchDate = LocalDate.now().minusDays(2);
+
+
+        String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
+                "from ods.air_search_results \n" +
+                "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(0) + "'  and\n" +
+                "trip_type like 'roundtrip' and total_price > 50 \n" +
+                "order by total_price \n" +
+                "limit "+limit+")";
+
+        for (int i = 1; i < destinations.size(); i++) {
+            String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
+                    "from ods.air_search_results" + "\n" +
+                    "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(i) + "'  and\n" +
+                    "trip_type like 'roundtrip' and total_price > 50 \n" +
+                    "order by total_price \n" +
+                    "limit "+limit+")";
+
+            query = query + UNION + subQuery;
+        }
+        return query;
+    }
+
+    public static String generateTopDestinationForPackageNets(String origin, int limit) {
 
         LocalDate searchDate = LocalDate.now().minusDays(2);
 
@@ -243,9 +302,41 @@ public class SqlQueryGenerator {
             "where search_date > '"+formatter.format(searchDate)+"' and trip_type like 'roundtrip' and \n" +
             "fare_type like 'package net' \n" +"and outbound_airport like '"+origin+"' group by inbound_airport\n" +
             "order by count(*) DESC\n" +
-            "limit 10";
+            "limit " + limit;
 
     return query;
+    }
+
+
+
+    public static String generatePopularPackageDestination(String origin, int number) {
+
+        LocalDate searchDate = LocalDate.now().minusDays(2);
+
+        String query = "select inbound_place, count(*)\n" +
+                "from ods.air_search_summary\n" +
+                "where search_date > '"+formatter.format(searchDate)+"' and trip_type like 'roundtrip' and " +
+                "is_package = true and outbound_place like '"+origin+"'\n" +
+                "group by inbound_place\n" +
+                "order by count(*) desc\n" +
+                "limit " + number;
+
+        return query;
+    }
+
+    public static String generatePopularDestination(String origin, int number) {
+
+        LocalDate searchDate = LocalDate.now().minusDays(2);
+
+        String query = "select inbound_place, count(*)\n" +
+                "from ods.air_search_summary\n" +
+                "where search_date > '"+formatter.format(searchDate)+"' and trip_type like 'roundtrip' and " +
+                "is_package = false and outbound_place like '"+origin+"'\n" +
+                "group by inbound_place\n" +
+                "order by count(*) desc\n" +
+                "limit " + number;
+
+        return query;
     }
 
 

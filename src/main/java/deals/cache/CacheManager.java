@@ -1,7 +1,11 @@
 package deals.cache;
 
+import deals.service.CheapFlightService;
 import deals.service.CheapestPackageService;
-import deals.service.PackageDealService;
+import deals.service.GenericPackageDealService;
+import deals.service.PopularPackageDestinationService;
+import deals.service.TopDestinationsService;
+import deals.service.TopPackageNetDestinationService;
 import deals.sort.Sort;
 import deals.sql.model.Deals;
 import deals.sql.model.PackageDeal;
@@ -12,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +35,21 @@ public class CacheManager {
     private CheapestPackageService cheapestPackageService;
 
     @Autowired
+    private TopPackageNetDestinationService topPackageNetDestinationService;
+
+    @Autowired
+    private TopDestinationsService topDestinationsService;
+
+    @Autowired
+    private PopularPackageDestinationService popularPackageDestinationService;
+
+    @Autowired
+    private GenericPackageDealService genericPackageDealService;
+
+    @Autowired
+    private CheapFlightService cheapFlightService;
+
+    @Autowired
     private XmlUtil xmlUtil;
 
     @Autowired
@@ -45,15 +65,27 @@ public class CacheManager {
     @Scheduled(fixedRate = 86400000)
     public void clearCache() {
         packageDealMap = new HashMap<>();
-        List<PackageDeal> packageDeals;
+        List<PackageDeal> packageDeals = new ArrayList<>();
 
         if(readFromCache) {
             packageDeals = xmlUtil.read();
 
         } else {
-            packageDeals = cheapestPackageService.execute();
-            Deals deals = new Deals();
-            deals.setPackageDeals(packageDeals);
+            Set<String> topDestination = topPackageNetDestinationService.execute("ORD", 10);
+            Set<String> popularDestination = popularPackageDestinationService.execute("ORD", 10);
+            popularDestination.retainAll(topDestination);
+            List<String> destinations = new ArrayList<>();
+            destinations.addAll(popularDestination);
+            packageDeals = genericPackageDealService.execute(Arrays.asList("ORD"), destinations);
+
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 20);
+            List<String> popularDestinationList = new ArrayList<>();
+            popularDestinationList.addAll(popularDestinations);
+            List cheapFlights = cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30);
+            packageDeals.addAll(cheapFlights);
+
+            xmlUtil.write(packageDeals);
+
         }
 
         cacheDeals(packageDeals);
@@ -98,12 +130,9 @@ public class CacheManager {
         return packageDeals;
     }
 
-
-
     public String generateKey(String origin, String destination) {
         return origin+"-"+destination;
 
     }
-
 
 }
