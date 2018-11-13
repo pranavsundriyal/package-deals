@@ -19,6 +19,14 @@ import java.util.List;
 @Component
 public class XmlUtil {
 
+    public boolean write(List<PackageDeal> packageDeals) {
+        Deals dealsList = new Deals();
+        dealsList.setPackageDeals(packageDeals);
+        write(dealsList);
+
+        return true;
+    }
+
     public boolean write(Deals deals) {
 
         try {

@@ -5,6 +5,8 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 import java.util.List;
 
+import static deals.sql.SqlQueryGenerator.topUsa;
+
 /**
  * Created by psundriyal on 4/8/18.
  */
@@ -91,7 +93,7 @@ public class SqlQueryTest {
 
     @Test
     public void buildTopDest(){
-        String query = SqlQueryGenerator.generateTopDest("SEA");
+        String query = SqlQueryGenerator.generateTopDestinationForPackageNets("SEA", 10);
         System.out.println(query);
         Assert.notNull(query);
     }
@@ -100,6 +102,27 @@ public class SqlQueryTest {
     public  void buildMultiOriginSimple() {
         String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList("SEA","ORD"),europe);
         System.out.println(query);
+        Assert.notNull(query);
+    }
+
+    @Test
+    public  void buildMultiOriginQuery() {
+        String query = SqlQueryGenerator.generateMultiOriginSimpleQuery(Arrays.asList("SEA","ORD"),europe);
+        System.out.println(query);
+        Assert.notNull(query);
+    }
+
+    @Test
+    public void buildMultiOriginSimpleQuery() {
+        String query = SqlQueryGenerator.generateMultiOriginSimpleQuery(Arrays.asList("ORD"), topUsa);
+        System.out.print(query);
+        Assert.notNull(query);
+    }
+
+    @Test
+    public void buildCheapQuery() {
+        String query = SqlQueryGenerator.generateMultiOriginCheapQuery(Arrays.asList("ORD"), topUsa, 100);
+        System.out.print(query);
         Assert.notNull(query);
     }
 }

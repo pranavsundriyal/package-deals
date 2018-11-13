@@ -20,11 +20,11 @@ import static deals.sql.SqlQueryGenerator.usa;
 import static deals.util.Util.addValues;
 
 /**
- * Created by psundriyal on 8/4/18.
+ * Created by psundriyal on 11/12/18.
  */
 
 @Service
-public class CheapestPackageService {
+public class CheapFlightService {
 
     @Autowired
     GenericRedshiftConnector genericRedshiftConnector;
@@ -32,15 +32,9 @@ public class CheapestPackageService {
     @Autowired
     XmlUtil xmlWriter;
 
-    public List<PackageDeal> execute(List destinations){
+    public List<PackageDeal> execute(List origins, List destinations, int limit){
         List<PackageDeal> packageDeals = new ArrayList<>();
-        List<String> world = new ArrayList<>();
-        world.addAll(europe);
-        world.addAll(hawai);
-        world.addAll(usa);
-        world.addAll(southamerica);
-        world.addAll(austrailia);
-        String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList( "ORD"), destinations);
+        String query = SqlQueryGenerator.generateMultiOriginCheapQuery(origins, destinations, limit);
         List<List<Object>> objects = genericRedshiftConnector.execute(query);
 
         for(List<Object> objectList : objects) {
@@ -54,11 +48,7 @@ public class CheapestPackageService {
         }
 
         packageDeals = addValues(packageDeals, false);
-        Deals dealsList = new Deals();
-        dealsList.setPackageDeals(packageDeals);
-        xmlWriter.write(dealsList);
 
         return packageDeals;
     }
-
 }
