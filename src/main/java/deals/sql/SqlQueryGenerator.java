@@ -276,7 +276,7 @@ public class SqlQueryGenerator {
         String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                 "from ods.air_search_results \n" +
                 "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(0) + "'  and\n" +
-                "trip_type like 'roundtrip' and total_price > 50 \n" +
+                "trip_type like 'roundtrip' and fare_type not like 'package net' and total_price > 100 \n" +
                 "order by total_price \n" +
                 "limit "+limit+")";
 
@@ -284,7 +284,7 @@ public class SqlQueryGenerator {
             String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
                     "from ods.air_search_results" + "\n" +
                     "where search_date > '" + formatter.format(searchDate) + "' and outbound_airport like '" + origin + "' and inbound_airport like '" + destinations.get(i) + "'  and\n" +
-                    "trip_type like 'roundtrip' and total_price > 50 \n" +
+                    "trip_type like 'roundtrip' and fare_type not like 'package net' and total_price > 100 \n" +
                     "order by total_price \n" +
                     "limit "+limit+")";
 

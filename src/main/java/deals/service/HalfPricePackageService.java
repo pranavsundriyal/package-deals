@@ -3,7 +3,6 @@ package deals.service;
 import deals.sql.SqlQueryGenerator;
 import deals.sql.model.Deals;
 import deals.sql.model.PackageDeal;
-import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class HalfPricePackageService {
                     (Timestamp) objectList.get(5),
                     (String) objectList.get(8),
                     (String) objectList.get(2),
-                    (String) objectList.get(3)));
+                    (String) objectList.get(3), true));
         }
 
         Deals dealsList = new Deals();

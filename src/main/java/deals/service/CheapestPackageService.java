@@ -50,7 +50,8 @@ public class CheapestPackageService {
                     (Timestamp) objectList.get(4),
                     (String) objectList.get(5),
                     (String) objectList.get(1),
-                    (String) objectList.get(2)));
+                    (String) objectList.get(2),
+                    true));
         }
 
         packageDeals = addValues(packageDeals, false);

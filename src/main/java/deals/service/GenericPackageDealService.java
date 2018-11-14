@@ -1,18 +1,14 @@
 package deals.service;
 
 import deals.sql.SqlQueryGenerator;
-import deals.sql.model.Deals;
 import deals.sql.model.PackageDeal;
-import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static deals.sql.SqlQueryGenerator.euro;
 import static deals.util.Util.addValues;
 
 /**
@@ -36,7 +32,7 @@ public class GenericPackageDealService {
                     (Timestamp) objectList.get(5),
                     (String) objectList.get(8),
                     (String) objectList.get(2),
-                    (String) objectList.get(3)));
+                    (String) objectList.get(3), true));
         }
         packageDeals = addValues(packageDeals, true);
 

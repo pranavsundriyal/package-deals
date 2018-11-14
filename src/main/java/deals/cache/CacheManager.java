@@ -72,18 +72,20 @@ public class CacheManager {
             packageDeals = xmlUtil.read();
 
         } else {
-            Set<String> topDestination = topPackageNetDestinationService.execute("ORD", 10);
-            Set<String> popularDestination = popularPackageDestinationService.execute("ORD", 10);
-            popularDestination.retainAll(topDestination);
+            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 10);
+            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 10);
+            popularPackageDestinations.retainAll(topPackageNetDestinations);
             List<String> destinations = new ArrayList<>();
-            destinations.addAll(popularDestination);
-            packageDeals = genericPackageDealService.execute(Arrays.asList("ORD"), destinations);
+            destinations.addAll(popularPackageDestinations);
 
             Set<String> popularDestinations = topDestinationsService.execute("ORD", 20);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
-            List cheapFlights = cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30);
-            packageDeals.addAll(cheapFlights);
+
+
+            packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD"), destinations));
+
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30));
 
             packageDeals.addAll(halfPricePackageService.execute());
 
