@@ -1,5 +1,5 @@
 settings:
-  readFromCache: false
+  readFromCache: true
 
 spring:
   application:
