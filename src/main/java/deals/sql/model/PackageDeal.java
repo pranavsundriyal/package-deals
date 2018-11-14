@@ -3,6 +3,7 @@ package deals.sql.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,13 @@ public class PackageDeal {
 
     Double packageNetPrice;
     Double standalonePrice;
+
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
     Timestamp outboundDateTime;
+
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
     Timestamp inboundDateTime;
+
     String outboundDate;
     String inboundDate;
     String flightNo;
@@ -25,13 +31,14 @@ public class PackageDeal {
     String destination;
     String url;
     Double savings;
+    boolean isPackage;
 
     public PackageDeal() {
 
     }
 
     public PackageDeal(Double packageNetPrice, Double standalonePrice, Timestamp outboundDateTime, Timestamp inboundDateTime,
-                       String flightNo, String origin, String destination) {
+                       String flightNo, String origin, String destination, boolean isPackage) {
         this.packageNetPrice = packageNetPrice;
         this.standalonePrice = standalonePrice;
         this.outboundDateTime = outboundDateTime;
@@ -39,6 +46,7 @@ public class PackageDeal {
         this.flightNo = flightNo;
         this.origin = origin;
         this.destination = destination;
+        this.isPackage = isPackage;
     }
 
     public Double getPackageNetPrice() {
@@ -127,5 +135,13 @@ public class PackageDeal {
 
     public void setInboundDate(String inboundDate) {
         this.inboundDate = inboundDate;
+    }
+
+    public boolean isPackage() {
+        return isPackage;
+    }
+
+    public void setPackage(boolean aPackage) {
+        isPackage = aPackage;
     }
 }

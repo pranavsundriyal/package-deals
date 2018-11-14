@@ -3,6 +3,7 @@ package deals.cache;
 import deals.service.CheapFlightService;
 import deals.service.CheapestPackageService;
 import deals.service.GenericPackageDealService;
+import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
 import deals.service.TopDestinationsService;
 import deals.service.TopPackageNetDestinationService;
@@ -32,7 +33,7 @@ public class CacheManager {
     private HashMap<String,List<PackageDeal>> packageDealMap;
 
     @Autowired
-    private CheapestPackageService cheapestPackageService;
+    private HalfPricePackageService halfPricePackageService;
 
     @Autowired
     private TopPackageNetDestinationService topPackageNetDestinationService;
@@ -71,18 +72,22 @@ public class CacheManager {
             packageDeals = xmlUtil.read();
 
         } else {
-            Set<String> topDestination = topPackageNetDestinationService.execute("ORD", 10);
-            Set<String> popularDestination = popularPackageDestinationService.execute("ORD", 10);
-            popularDestination.retainAll(topDestination);
+            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 10);
+            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 10);
+            popularPackageDestinations.retainAll(topPackageNetDestinations);
             List<String> destinations = new ArrayList<>();
-            destinations.addAll(popularDestination);
-            packageDeals = genericPackageDealService.execute(Arrays.asList("ORD"), destinations);
+            destinations.addAll(popularPackageDestinations);
 
             Set<String> popularDestinations = topDestinationsService.execute("ORD", 20);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
-            List cheapFlights = cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30);
-            packageDeals.addAll(cheapFlights);
+
+
+            packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD"), destinations));
+
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30));
+
+            packageDeals.addAll(halfPricePackageService.execute());
 
             xmlUtil.write(packageDeals);
 

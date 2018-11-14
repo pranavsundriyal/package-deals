@@ -15,7 +15,8 @@ import java.util.List;
  */
 public  class Util {
 
-    public static String endpoint = "https://www.expedia.com/Hotel-Search?packageType=fh&searchProduct=hotel";
+    public static String package_endpoint = "https://www.expedia.com/Hotel-Search?packageType=fh&searchProduct=hotel";
+    public static String flight_endpoint = "https://www.expedia.com/Flights-Search?trip=roundtrip";
     public static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 
@@ -34,13 +35,39 @@ public  class Util {
 
     public static String generateUrl(PackageDeal packageDeal) {
         try {
-            URIBuilder uri = new URIBuilder(endpoint);
-            uri.addParameter("origin", packageDeal.getOrigin());
-            uri.addParameter("destination", packageDeal.getDestination());
-            uri.addParameter("startDate", formatDate(packageDeal.getOutboundDate()));
-            uri.addParameter("endDate", formatDate(packageDeal.getInboundDate()));
-            uri.addParameter("adults","1");
-            return uri.toString();
+            String url;
+            if (packageDeal.isPackage()) {
+                URIBuilder uri = new URIBuilder(package_endpoint);
+                uri.addParameter("origin", packageDeal.getOrigin());
+                uri.addParameter("destination", packageDeal.getDestination());
+                uri.addParameter("startDate", formatDate(packageDeal.getOutboundDate()));
+                uri.addParameter("endDate", formatDate(packageDeal.getInboundDate()));
+                uri.addParameter("adults","1");
+                url = uri.toString();
+            } else {
+                StringBuilder sb = new StringBuilder(flight_endpoint);
+                sb.append("&leg1=from:" + packageDeal.getOrigin() + ",to:" + packageDeal.getDestination()
+                        + ",departure:" + formatDateForFLight(packageDeal.getOutboundDate()));
+                sb.append("&leg2=from:" + packageDeal.getDestination() + ",to:" + packageDeal.getOrigin()
+                        + ",departure:"+ formatDateForFLight(packageDeal.getInboundDate()));
+                sb.append("&passengers=children:0,adults:1,seniors:0,infantinlap:Y");
+                sb.append("&mode=search");
+                sb.append("&options=sortby:price");
+                url = sb.toString();
+/*
+                uri = new URIBuilder(flight_endpoint);
+                uri.addParameter("leg1", "from:" + packageDeal.getOrigin() + ",to:" + packageDeal.getDestination()
+                        + ",departure:"+ formatDateForFLight(packageDeal.getOutboundDate()));
+                uri.addParameter("leg2", "from:" + packageDeal.getDestination() + ",to:" + packageDeal.getOrigin()
+                        + ",departure:"+ formatDateForFLight(packageDeal.getOutboundDate()));
+                uri.addParameter("adults","1");
+                uri.addParameter("mode","search");
+                uri.addParameter("options","sortby:price");
+            */
+            }
+
+
+            return url;
         } catch (Exception e){
             System.out.print(e);
         }
@@ -58,6 +85,23 @@ public  class Util {
         String formattedDate = splited[0].toString();
 
         return formattedDate;
+    }
+
+    public static String formatDateForFLight(String date) {
+
+        String[] splited = date.split("\\s+");
+
+        String formattedDate = splited[0].toString();
+
+        String[] dateTime = formattedDate.split("-");
+
+        String day = dateTime[2];
+
+        String month = dateTime[1];
+
+        String year = dateTime[0];
+
+        return month+"/"+day+"/"+year+"TANYT";
     }
 
     public static Double calculateSavings(PackageDeal packageDeal) {

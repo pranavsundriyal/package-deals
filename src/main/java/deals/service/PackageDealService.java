@@ -41,7 +41,8 @@ public class PackageDealService {
                     (Timestamp) objectList.get(4),
                     (String) objectList.get(5),
                     (String) objectList.get(1),
-                    (String) objectList.get(2)));
+                    (String) objectList.get(2),
+                    true));
         }
 
         Deals dealsList = new Deals();

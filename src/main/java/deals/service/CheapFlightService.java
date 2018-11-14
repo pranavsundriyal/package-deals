@@ -1,7 +1,6 @@
 package deals.service;
 
 import deals.sql.SqlQueryGenerator;
-import deals.sql.model.Deals;
 import deals.sql.model.PackageDeal;
 import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static deals.sql.SqlQueryGenerator.austrailia;
-import static deals.sql.SqlQueryGenerator.europe;
-import static deals.sql.SqlQueryGenerator.hawai;
-import static deals.sql.SqlQueryGenerator.southamerica;
-import static deals.sql.SqlQueryGenerator.usa;
 import static deals.util.Util.addValues;
 
 /**
@@ -44,7 +37,8 @@ public class CheapFlightService {
                     (Timestamp) objectList.get(4),
                     (String) objectList.get(5),
                     (String) objectList.get(1),
-                    (String) objectList.get(2)));
+                    (String) objectList.get(2),
+                    false));
         }
 
         packageDeals = addValues(packageDeals, false);
