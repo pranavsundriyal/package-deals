@@ -40,6 +40,33 @@ $(document).ready(function() {
         });
     });
 
+    $("#status").append("getting summary");
+    $("#results").empty();
+    $.ajax({
+            type: "GET",
+            url: "getDealSummary",
+            data: {},
+            success: function (data) {
+                $("#status").empty();
+                $("#summary").empty();
+
+                var i = 0;
+                $.each(data, function(key, value) {
+                    $("#summary").append(key+'&nbsp;-&nbsp;'+value+'$ &nbsp;&nbsp;&nbsp;');
+                    i++
+                    if(i%10 == 0) {
+                        $("#summary").append('<br>');
+                    }
+                });
+
+
+            },
+            error: function(data) {
+                //Do Something to handle error
+            }
+
+    });
+
     function twoDigitPrices(savings) {
         return savings.toFixed(2);
     }

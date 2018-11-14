@@ -140,4 +140,7 @@ public class CacheManager {
 
     }
 
+    public HashMap<String, List<PackageDeal>> getPackageDealMap() {
+        return packageDealMap;
+    }
 }

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by psundriyal on 2/19/18.
@@ -82,5 +84,21 @@ public class DealsController {
         }
         return deals;
     }
+
+    @RequestMapping(value = "/getDealSummary")
+    public Map<String,Double> getDealSummary() {
+
+        Map<String,Double> summary = new HashMap<>();
+        for (Map.Entry<String,List<PackageDeal>> entry : cacheManager.getPackageDealMap().entrySet()){
+            String [] strings = entry.getKey().split("-");
+            summary.put(strings[1],entry.getValue().get(0).getPackageNetPrice());
+        }
+
+        return summary;
+
+    }
+
+
+
 
 }
