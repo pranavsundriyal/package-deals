@@ -13,7 +13,12 @@ $(document).ready(function() {
             url: "getCachedDeals",
             data: {
                 origin: $("#origin").val(),
-                dest: $("#dest").val()
+                dest: $("#dest").val(),
+                month: $("#month").val(),
+                year: $("#year").val(),
+                noOfDays: $("#noOfDays").val(),
+                path: $('input[name=path]:checked').val()
+
             },
             success: function (data) {
                 $("#status").empty();

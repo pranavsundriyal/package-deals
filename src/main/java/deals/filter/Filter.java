@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface Filter {
 
-    List<PackageDeal> filter(List<PackageDeal> packageDeals);
+    List<PackageDeal> filter(List<PackageDeal> packageDeals, String param);
 
 }
