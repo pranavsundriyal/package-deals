@@ -40,16 +40,18 @@ $(document).ready(function() {
         });
     });
 
-    $("#status").append("getting summary");
-    $("#results").empty();
+    $("#search").click(function () {
+    $("#summary").empty();
     $.ajax({
             type: "GET",
             url: "getDealSummary",
-            data: {},
+            data: {
+                origin: $("#origin").val()
+            },
             success: function (data) {
-                $("#status").empty();
                 $("#summary").empty();
-
+                $("#summary").append('<div><b>Top Deals for cities starting from : </b><br></div>')
+                ')
                 var i = 0;
                 $.each(data, function(key, value) {
                     $("#summary").append(key+'&nbsp;-&nbsp;'+value+'$ &nbsp;&nbsp;&nbsp;');
@@ -64,8 +66,9 @@ $(document).ready(function() {
             error: function(data) {
                 //Do Something to handle error
             }
-
+        });
     });
+
 
     function twoDigitPrices(savings) {
         return savings.toFixed(2);
