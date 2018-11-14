@@ -3,6 +3,7 @@ package deals.sql.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,11 @@ public class PackageDeal {
 
     Double packageNetPrice;
     Double standalonePrice;
+
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
     Timestamp outboundDateTime;
+
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
     Timestamp inboundDateTime;
     String outboundDate;
     String inboundDate;

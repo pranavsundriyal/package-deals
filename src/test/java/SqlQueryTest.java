@@ -125,4 +125,12 @@ public class SqlQueryTest {
         System.out.print(query);
         Assert.notNull(query);
     }
+
+    @Test
+    public void buildHalfPriceQuery() {
+        String query = SqlQueryGenerator.generateMultiOriginOrHalfPricePackageQuery(Arrays.asList("ORD", "SEA"),
+                Arrays.asList("LHR", "CDG"), 2,8,2,7, 100);
+        System.out.print(query);
+        Assert.notNull(query);
+    }
 }

@@ -3,6 +3,7 @@ package deals.cache;
 import deals.service.CheapFlightService;
 import deals.service.CheapestPackageService;
 import deals.service.GenericPackageDealService;
+import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
 import deals.service.TopDestinationsService;
 import deals.service.TopPackageNetDestinationService;
@@ -32,7 +33,7 @@ public class CacheManager {
     private HashMap<String,List<PackageDeal>> packageDealMap;
 
     @Autowired
-    private CheapestPackageService cheapestPackageService;
+    private HalfPricePackageService halfPricePackageService;
 
     @Autowired
     private TopPackageNetDestinationService topPackageNetDestinationService;
@@ -83,6 +84,8 @@ public class CacheManager {
             popularDestinationList.addAll(popularDestinations);
             List cheapFlights = cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30);
             packageDeals.addAll(cheapFlights);
+
+            packageDeals.addAll(halfPricePackageService.execute());
 
             xmlUtil.write(packageDeals);
 
