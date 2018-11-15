@@ -31,7 +31,9 @@ $(document).ready(function() {
                         + twoDigitPrices(data[i].packageNetPrice) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
                         + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div><div><h5>Journey End Time: '
-                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo+ '<b></h4></div></a><br></div>');
+                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo+
+                        + path(data[i].package) + '<br>' +
+                        + getSavings(data[i].savings) + '<b></h4></div></a><br><br></div>');
                 }
             },
             error: function(data) {
@@ -40,16 +42,34 @@ $(document).ready(function() {
         });
     });
 
-    $("#status").append("getting summary");
-    $("#results").empty();
+    function path(isPackage) {
+        if(isPackage) {
+            return "Package"
+        } else {
+            return "Flight";
+        }
+    }
+
+    function getSavings(savings) {
+        if(savings != null) {
+            return "Package Saving of : " + savings;
+        }
+        return "";
+    }
+
+
+
+    $("#search").click(function () {
+    $("#summary").empty();
     $.ajax({
             type: "GET",
             url: "getDealSummary",
-            data: {},
+            data: {
+                origin: $("#origin").val()
+            },
             success: function (data) {
-                $("#status").empty();
                 $("#summary").empty();
-
+                $("#summary").append('<div><b>Top Deals for cities starting from : </b><br></div>');
                 var i = 0;
                 $.each(data, function(key, value) {
                     $("#summary").append(key+'&nbsp;-&nbsp;'+value+'$ &nbsp;&nbsp;&nbsp;');
@@ -64,8 +84,9 @@ $(document).ready(function() {
             error: function(data) {
                 //Do Something to handle error
             }
-
+        });
     });
+
 
     function twoDigitPrices(savings) {
         return savings.toFixed(2);

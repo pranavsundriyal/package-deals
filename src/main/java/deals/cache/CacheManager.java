@@ -72,8 +72,8 @@ public class CacheManager {
             packageDeals = xmlUtil.read();
 
         } else {
-            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 10);
-            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 10);
+            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 50);
+            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 50);
             popularPackageDestinations.retainAll(topPackageNetDestinations);
             List<String> destinations = new ArrayList<>();
             destinations.addAll(popularPackageDestinations);

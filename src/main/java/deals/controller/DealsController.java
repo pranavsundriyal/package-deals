@@ -6,6 +6,7 @@ import deals.filter.NoOfDaysFilter;
 import deals.filter.PackageFilter;
 import deals.filter.YearFilter;
 import deals.service.PackageDealService;
+import deals.sort.PackagePriceComparator;
 import deals.sql.model.PackageDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,9 @@ public class DealsController {
     @Autowired
     PackageFilter packageFilter;
 
+    @Autowired
+    PackagePriceComparator packagePriceComparator;
+
     @RequestMapping(value = "/getRedshiftDeals")
     public List<PackageDeal> getDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
         List<PackageDeal> deals = packageDealService.execute();
@@ -68,6 +72,8 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin);
         }
 
+        deals = clone(deals);
+
         if (month != null && !month.isEmpty()) {
             deals = monthFilter.filter(deals, month);
         }
@@ -86,19 +92,45 @@ public class DealsController {
     }
 
     @RequestMapping(value = "/getDealSummary")
-    public Map<String,Double> getDealSummary() {
+    public Map<String,Double> getDealSummary(@RequestParam(value = "origin", required = true) String origin) {
 
         Map<String,Double> summary = new HashMap<>();
         for (Map.Entry<String,List<PackageDeal>> entry : cacheManager.getPackageDealMap().entrySet()){
             String [] strings = entry.getKey().split("-");
-            summary.put(strings[1],entry.getValue().get(0).getPackageNetPrice());
+            if (strings[0].equalsIgnoreCase(origin)) {
+                List<PackageDeal> packageDeals = entry.getValue();
+                packageDeals.sort(packagePriceComparator);
+                summary.put(strings[1], entry.getValue().get(0).getPackageNetPrice());
+            }
         }
 
         return summary;
 
     }
 
+    public List<PackageDeal> clone(List<PackageDeal> packageDeals){
+        List<PackageDeal> clonedPackageDeals = new ArrayList<>();
 
+        for (PackageDeal packageDeal : packageDeals) {
+            PackageDeal deal = new PackageDeal(packageDeal.getPackageNetPrice(),
+                    packageDeal.getStandalonePrice(),
+                    packageDeal.getOutboundDateTime(),
+                    packageDeal.getInboundDateTime(),
+                    packageDeal.getFlightNo(),
+                    packageDeal.getOrigin(),
+                    packageDeal.getDestination(),
+                    packageDeal.isPackage());
+
+            deal.setOutboundDate(packageDeal.getOutboundDate());
+            deal.setInboundDate(packageDeal.getInboundDate());
+            deal.setUrl(packageDeal.getUrl());
+            deal.setSavings(packageDeal.getSavings());
+
+            clonedPackageDeals.add(deal);
+        }
+
+        return clonedPackageDeals;
+    }
 
 
 }
