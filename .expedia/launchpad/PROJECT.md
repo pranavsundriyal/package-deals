@@ -26,7 +26,7 @@ Uses redshift jobs to mine based on the set algorithms. Job runs once evryday to
 run it and try it out in web browser
 
 ## DEMO
-<iframe src="https://www.youtube.com/embed/ogtz_ch9Rpo?showinfo=0" class="youtube" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://dbi21ygmvh9kw.cloudfront.net/s09ifv8v-7x3f-4am1-t47g-3731g6h4o53m/Web.mp4" frameborder="0" allowfullscreen></iframe>
 ## What's next?
 
 Would like to roll it out many more places. 
