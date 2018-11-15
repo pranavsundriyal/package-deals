@@ -27,6 +27,8 @@ Uses redshift jobs to mine based on the set algorithms. Job runs once evryday to
 ## Show me it in action!
 run it and try it out in web browser
 
+checkout : http://www.expedia.com.stat.dev.sb.karmalab.net:8080/
+
 ## What's next?
 
 Would like to roll it out many more places. 
