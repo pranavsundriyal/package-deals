@@ -144,4 +144,6 @@ public class PackageDeal {
     public void setPackage(boolean aPackage) {
         isPackage = aPackage;
     }
+
+
 }

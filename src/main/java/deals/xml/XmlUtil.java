@@ -32,7 +32,7 @@ public class XmlUtil {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
 
-            File file = new File(classLoader.getResource("deals.xml").getFile());
+            File file = new File(classLoader.getResource("static/deals.xml").getFile());
 
             JAXBContext jaxbContext = JAXBContext.newInstance(Deals.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -58,7 +58,7 @@ public class XmlUtil {
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             ClassLoader classLoader = getClass().getClassLoader();
 
-            File file = new File(classLoader.getResource("deals.xml").getFile());
+            File file = new File(classLoader.getResource("static/deals.xml").getFile());
 
             //We had written this file in marshalling example
             deals = (Deals) jaxbUnmarshaller.unmarshal( file);
