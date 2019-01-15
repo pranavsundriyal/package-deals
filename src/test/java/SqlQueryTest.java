@@ -133,4 +133,11 @@ public class SqlQueryTest {
         System.out.print(query);
         Assert.notNull(query);
     }
+
+    @Test
+    public  void buildSingleOriginQuery() {
+        String query = SqlQueryGenerator.generateSimpleQuery("PHX",europe);
+        System.out.println(query);
+        Assert.notNull(query);
+    }
 }

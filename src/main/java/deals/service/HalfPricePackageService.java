@@ -26,7 +26,7 @@ public class HalfPricePackageService {
 
     public List<PackageDeal> execute() {
         List<PackageDeal> packageDeals = new ArrayList<>();
-        String query = SqlQueryGenerator.generateMultiOriginOrHalfPricePackageQuery(Arrays.asList("ORD"),
+        String query = SqlQueryGenerator.generateMultiOriginOrHalfPricePackageQuery(Arrays.asList("ORD","SEA"),
                 euro, 2,8,2,7, 100);
         List<List<Object>> objects = genericRedshiftConnector.execute(query);
         for(List<Object> objectList : objects) {

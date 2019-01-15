@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static deals.util.Util.sort;
 
@@ -30,7 +31,7 @@ import static deals.util.Util.sort;
 @Configuration
 public class CacheManager {
 
-    private HashMap<String,List<PackageDeal>> packageDealMap;
+    private ConcurrentHashMap<String,List<PackageDeal>> packageDealMap;
 
     @Autowired
     private HalfPricePackageService halfPricePackageService;
@@ -60,12 +61,11 @@ public class CacheManager {
     private boolean readFromCache;
 
     public CacheManager() {
-        packageDealMap = new HashMap<>();
+        packageDealMap = new ConcurrentHashMap();
     }
 
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 3*86400000)
     public void clearCache() {
-        packageDealMap = new HashMap<>();
         List<PackageDeal> packageDeals = new ArrayList<>();
 
         if(readFromCache) {
@@ -78,14 +78,14 @@ public class CacheManager {
             List<String> destinations = new ArrayList<>();
             destinations.addAll(popularPackageDestinations);
 
-            Set<String> popularDestinations = topDestinationsService.execute("ORD", 20);
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 50);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
 
 
-            packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD"), destinations));
+            packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD","SEA"), destinations));
 
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,30));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
 
             packageDeals.addAll(halfPricePackageService.execute());
 
@@ -115,7 +115,7 @@ public class CacheManager {
         String key = generateKey(origin,destination);
         if (packageDealMap.containsKey(key)) {
             List<PackageDeal> packageDeals = packageDealMap.get(key);
-            sort(packageDeals);
+            //sort(packageDeals);
             return packageDeals;
         }
 
@@ -131,7 +131,7 @@ public class CacheManager {
                 packageDeals.addAll(packageDealMap.get(key));
             }
          }
-        sort.sortByComparators(packageDeals);
+        //sort.sortByComparators(packageDeals);
         return packageDeals;
     }
 
@@ -140,7 +140,7 @@ public class CacheManager {
 
     }
 
-    public HashMap<String, List<PackageDeal>> getPackageDealMap() {
+    public ConcurrentHashMap<String, List<PackageDeal>> getPackageDealMap() {
         return packageDealMap;
     }
 }
