@@ -7,6 +7,7 @@ import deals.filter.PackageFilter;
 import deals.filter.YearFilter;
 import deals.service.PackageDealService;
 import deals.sort.PackagePriceComparator;
+import deals.sort.Sort;
 import deals.sql.model.PackageDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,9 @@ public class DealsController {
     @Autowired
     PackagePriceComparator packagePriceComparator;
 
+    @Autowired
+    Sort sort ;
+
     @RequestMapping(value = "/getRedshiftDeals")
     public List<PackageDeal> getDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
         List<PackageDeal> deals = packageDealService.execute();
@@ -72,7 +76,7 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin);
         }
 
-        deals = clone(deals);
+        //deals = clone(deals);
 
         if (month != null && !month.isEmpty()) {
             deals = monthFilter.filter(deals, month);
@@ -88,6 +92,7 @@ public class DealsController {
         if (path != null && !path.isEmpty()) {
             deals = packageFilter.filter(deals, path);
         }
+        sort.sortByComparators(deals);
         return deals;
     }
 
@@ -99,7 +104,7 @@ public class DealsController {
             String [] strings = entry.getKey().split("-");
             if (strings[0].equalsIgnoreCase(origin)) {
                 List<PackageDeal> packageDeals = entry.getValue();
-                packageDeals.sort(packagePriceComparator);
+                //packageDeals.sort(packagePriceComparator);
                 summary.put(strings[1], entry.getValue().get(0).getPackageNetPrice());
             }
         }
