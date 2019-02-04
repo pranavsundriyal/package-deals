@@ -42,7 +42,7 @@ public  class Util {
                 uri.addParameter("destination", packageDeal.getDestination());
                 uri.addParameter("startDate", formatDate(packageDeal.getOutboundDate()));
                 uri.addParameter("endDate", formatDate(packageDeal.getInboundDate()));
-                uri.addParameter("adults","1");
+                //uri.addParameter("adults","1");
                 url = uri.toString();
             } else {
                 StringBuilder sb = new StringBuilder(flight_endpoint);
@@ -50,7 +50,7 @@ public  class Util {
                         + ",departure:" + formatDateForFLight(packageDeal.getOutboundDate()));
                 sb.append("&leg2=from:" + packageDeal.getDestination() + ",to:" + packageDeal.getOrigin()
                         + ",departure:"+ formatDateForFLight(packageDeal.getInboundDate()));
-                sb.append("&passengers=children:0,adults:1,seniors:0,infantinlap:Y");
+                //sb.append("&passengers=children:0,adults:1,seniors:0,infantinlap:Y");
                 sb.append("&mode=search");
                 sb.append("&options=sortby:price");
                 url = sb.toString();
