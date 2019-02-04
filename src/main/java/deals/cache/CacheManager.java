@@ -5,6 +5,7 @@ import deals.service.CheapestPackageService;
 import deals.service.GenericPackageDealService;
 import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
+import deals.service.RedshiftConnector;
 import deals.service.TopDestinationsService;
 import deals.service.TopPackageNetDestinationService;
 import deals.sort.Sort;
@@ -18,11 +19,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
+import static deals.sql.SqlQueryGenerator.MY_DESTINATIONS;
 import static deals.util.Util.sort;
 
 /**
@@ -30,6 +33,8 @@ import static deals.util.Util.sort;
  */
 @Configuration
 public class CacheManager {
+
+    private Logger log = Logger.getLogger(CacheManager.class.getName());
 
     private ConcurrentHashMap<String,List<PackageDeal>> packageDealMap;
 
@@ -72,21 +77,35 @@ public class CacheManager {
             packageDeals = xmlUtil.read();
 
         } else {
-            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 50);
-            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 50);
+
+            log.info("Getting top package net destination");
+            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 25);
+            topPackageNetDestinations.stream().forEach(destination -> log.info(destination));
+
+            log.info("Getting top popular package  destination");
+            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 25);
+            popularPackageDestinations.stream().forEach(destination -> log.info(destination));
+
             popularPackageDestinations.retainAll(topPackageNetDestinations);
             List<String> destinations = new ArrayList<>();
             destinations.addAll(popularPackageDestinations);
+            destinations.stream().forEach(destination -> log.info(destination));
 
-            Set<String> popularDestinations = topDestinationsService.execute("ORD", 50);
+            log.info("Getting most popular standalone destination");
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 25);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
+            popularDestinations.stream().forEach(destination -> log.info(destination));
 
-
+            log.info("Getting generic package deals");
             packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD","SEA"), destinations));
 
+            popularDestinationList.addAll(MY_DESTINATIONS);
+
+            log.info("Getting generic cheap flight deals");
             packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
 
+            log.info("Getting generic half price package deals");
             packageDeals.addAll(halfPricePackageService.execute());
 
             xmlUtil.write(packageDeals);
