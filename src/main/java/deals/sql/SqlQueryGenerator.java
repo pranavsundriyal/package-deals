@@ -24,6 +24,8 @@ public class SqlQueryGenerator {
     public static List<String> austrailia = Arrays.asList("SYD", "MEL", "ADL", "CBR");
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static  List<String> euro = Arrays.asList("CDG", "LHR", "ZRH", "BRU","BCN","MAD", "AMS");
+    public static  List<String> MY_DESTINATIONS = Arrays.asList("DEL", "BOM");
+
 
     public static List<String> topUsa = Arrays.asList("CUN","LAS", "LAX", "PHX", "PUJ", "MIA", "MBJ", "PVR", "SJO", "ZIH", "PTY", "SJU", "MCO", "DEN", "GCM", "HUX");
 
