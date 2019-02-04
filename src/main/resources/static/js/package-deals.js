@@ -12,13 +12,11 @@ $(document).ready(function() {
             type: "GET",
             url: "getCachedDeals",
             data: {
-                origin: $("#origin").val(),
+                origin: $( "#origin" ).selectmenu().val(),
                 dest: $("#dest").val(),
-                month: $("#month").val(),
-                year: $("#year").val(),
+                month: $( "#month" ).selectmenu().val() == "all" ? "" : $( "#month" ).selectmenu().val(),
+                year: $( "#year" ).selectmenu().val(),
                 noOfDays: $("#noOfDays").val(),
-                path: $('input[name=path]:checked').val()
-
             },
             success: function (data) {
                 $("#status").empty();
@@ -26,8 +24,10 @@ $(document).ready(function() {
 
                 for(var i=0; i<data.length; i++) {
                     totalDeals = data.length;
-                    $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener noreferrer" style="text-decoration : none" href="' + data[i].url
-                        + '"><div class="package-price"><h5><b>Approx. Package Price: $'
+                    $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener ' +
+                        'noreferrer" style="text-decoration : none" href="'
+                        + data[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+$( "#noAdults" ).selectmenu().val()
+                        + '"><div class="package-price"><h5><b>Approx. Flight Price: $'
                         + twoDigitPrices(data[i].packageNetPrice) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
                         + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div><div><h5>Journey End Time: '

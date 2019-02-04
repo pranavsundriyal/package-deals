@@ -17,21 +17,54 @@
 <div>
     <div class="container">
     <div class="jumbotron">
-        <h1 align="center" style="color:black; font-family: Tahoma, Geneva, sans-serif; font-weight: bold;">Discover Package Deals</h1>
+        <h1 align="center" style="color:black; font-family: Tahoma, Geneva, sans-serif; font-weight: bold;">Discover Flight Deals</h1>
+        <h4>Find Flight deals with huge discounts. Deals which are in 1 percentile of the highest discounts given.</h4>
     </div>
 
 
     <div class="row">
         <div class="col-md-12 col-centered">
         <div class="form-group">
-            Origin : <input type="text" id="origin" value="ORD"><br><br>
-            Destination : <input type="text" id="dest" value=""><br><br>
-            Month : <input type="text" id="month" value=""><br><br>
-            Year : <input type="text" id="year" value=""><br><br>
+            Origin (required) :&nbsp;&nbsp;
+            <select name="origin" id="origin">
+                <option value="ORD">ORD (Chicago)</option>
+                <option value="SEA">SEA (Seattle)</option>
+            </select>
+            <br><br>
+            Destination  :<input type="text" id="dest" value="">
+            <br><br>
+            Month : &nbsp;&nbsp;
+            <select name="month" id="month">
+                <option value="all">ANY</option>
+                <option value="01">JANUARY</option>
+                <option value="02">FEBRUARY</option>
+                <option value="03">MARCH</option>
+                <option value="04">APRIL</option>
+                <option value="05">MAY</option>
+                <option value="06">JUNE</option>
+                <option value="07">JULY</option>
+                <option value="08">AUGUST</option>
+                <option value="09">SEPTEMBER</option>
+                <option value="10">OCTOBER</option>
+                <option value="11">NOVEMBER</option>
+                <option value="12">DECEMBER</option>
+            </select>
+            <br><br>
+            Year : &nbsp;&nbsp;
+            <select name="year" id="year">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+            </select>
+            <br><br>
+            No of Adults : &nbsp;&nbsp;
+            <select name="noAdults" id="noAdults" style="width: 50px;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <br><br>
             No of Days : <input type="text" id="noOfDays" value=""><br><br>
-            <input type="radio" name="path" value="package"> Package<br>
-            <input type="radio" name="path" value="flight"> Flight<br>
-
         </div>
         <button id="search" class="btn-primary" type="button" >Search</button><br>
         <div id="status"></div><br>

@@ -65,8 +65,7 @@ public class DealsController {
                                             @RequestParam(value = "dest", required = false) String dest,
                                             @RequestParam(value = "month", required = false) String month,
                                             @RequestParam(value = "year", required = false) String year,
-                                            @RequestParam(value = "noOfDays", required = false) String noOfDays,
-                                            @RequestParam(value = "path", required = false) String path)
+                                            @RequestParam(value = "noOfDays", required = false) String noOfDays)
             throws Exception {
 
         List<PackageDeal> deals = new ArrayList();
@@ -89,9 +88,6 @@ public class DealsController {
             deals = noOfDaysFilter.filter(deals, noOfDays);
         }
 
-        if (path != null && !path.isEmpty()) {
-            deals = packageFilter.filter(deals, path);
-        }
         sort.sortByComparators(deals);
         return deals;
     }
