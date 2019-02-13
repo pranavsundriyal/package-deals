@@ -69,7 +69,7 @@ public class CacheManager {
         packageDealMap = new ConcurrentHashMap();
     }
 
-    @Scheduled(fixedRate = 3*86400000)
+    @Scheduled(fixedRate = 2*86400000)
     public void clearCache() {
         List<PackageDeal> packageDeals = new ArrayList<>();
 
