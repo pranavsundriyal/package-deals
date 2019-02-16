@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by psundriyal on 7/9/18.
@@ -122,6 +123,16 @@ public  class Util {
             e.printStackTrace();
         }
         return d;
+    }
+
+    public static int calculateDays(PackageDeal packageDeal) {
+        Date inboundDate = convertToDate(packageDeal.getInboundDate());
+        Date outboundDate = convertToDate(packageDeal.getOutboundDate());
+
+        long diffInMillies = Math.abs((outboundDate.getTime() - inboundDate.getTime()));
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        return Math.toIntExact(diff);
     }
 
 }

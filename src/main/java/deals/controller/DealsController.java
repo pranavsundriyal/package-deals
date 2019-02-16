@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static deals.util.Util.calculateDays;
+
 /**
  * Created by psundriyal on 2/19/18.
  */
@@ -75,6 +77,7 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin);
         }
 
+        deals.stream().forEach(deal -> deal.setNoOfDays(calculateDays(deal)));
         //deals = clone(deals);
 
         if (month != null && !month.isEmpty()) {
