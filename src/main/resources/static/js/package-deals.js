@@ -28,7 +28,7 @@ $(document).ready(function() {
                     $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener ' +
                         'noreferrer" style="text-decoration : none" href="'
                         + data[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+adults
-                        + '"><div class="package-price"><h5><b>Approx. Per Person Price: $'
+                        + '"><div class="package-price"><h5><b>Approx. Per Person Price '+isHotelIncluded(data[i].package)+' : $'
                         + calculatePrice(data[i], adults) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
                         + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div>'
@@ -43,6 +43,14 @@ $(document).ready(function() {
             }
         });
     });
+
+    function isHotelIncluded(isPackage) {
+        if(path(isPackage) == "Package") {
+            return "(Hotel Included)";
+        }
+
+        return "";
+    }
 
     function path(isPackage) {
         if(isPackage) {
