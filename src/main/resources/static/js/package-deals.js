@@ -22,17 +22,20 @@ $(document).ready(function() {
                 $("#status").empty();
                 $("#results").empty();
 
+                var adults = $( "#noAdults" ).selectmenu().val();
                 for(var i=0; i<data.length; i++) {
                     totalDeals = data.length;
                     $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener ' +
                         'noreferrer" style="text-decoration : none" href="'
-                        + data[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+$( "#noAdults" ).selectmenu().val()
-                        + '"><div class="package-price"><h5><b>Approx. Flight Price: $'
-                        + twoDigitPrices(data[i].packageNetPrice) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
+                        + data[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+adults
+                        + '"><div class="package-price"><h5><b>Approx. Per Person Price '+isHotelIncluded(data[i].package)+' : $'
+                        + calculatePrice(data[i], adults) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
-                        + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div><div><h5>Journey End Time: '
-                        + data[i].inboundDate + '</h5></div>'+ '<div><h5>Flight No: ' + data[i].flightNo+'<br><br>'
-                        + path(data[i].package) + '&nbsp;Deal<br><b></h4></div></a><br><br></div>');
+                        + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div>'
+                        + '<div><h5>Journey End Time: ' + data[i].inboundDate + '</h5></div>'
+                        + '<div><h5>Flight No: ' + data[i].flightNo+ '</h5></div>'
+                        + '<div><h5>No. of Days: ' + data[i].noOfDays + '</h5></div>'
+                        + '<div><h5>'+path(data[i].package) + '&nbsp;Deal</h5></div></a><br><br></div>');
                 }
             },
             error: function(data) {
@@ -40,6 +43,14 @@ $(document).ready(function() {
             }
         });
     });
+
+    function isHotelIncluded(isPackage) {
+        if(path(isPackage) == "Package") {
+            return "(Hotel Included)";
+        }
+
+        return "";
+    }
 
     function path(isPackage) {
         if(isPackage) {
@@ -54,6 +65,13 @@ $(document).ready(function() {
             return "Package Saving of : " + savings;
         }
         return "";
+    }
+
+    function calculatePrice(deal, adults) {
+        if (deal.package){
+            return twoDigitPrices((adults * deal.packageNetPrice + 100 * deal.noOfDays)/adults)
+        }
+        return twoDigitPrices(deal.packageNetPrice)
     }
 
 

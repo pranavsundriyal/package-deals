@@ -32,6 +32,7 @@ public class PackageDeal {
     String url;
     Double savings;
     boolean isPackage;
+    int noOfDays;
 
     public PackageDeal() {
 
@@ -145,5 +146,11 @@ public class PackageDeal {
         isPackage = aPackage;
     }
 
+    public int getNoOfDays() {
+        return noOfDays;
+    }
 
+    public void setNoOfDays(int noOfDays) {
+        this.noOfDays = noOfDays;
+    }
 }
