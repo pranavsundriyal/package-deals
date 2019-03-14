@@ -1,9 +1,10 @@
 package deals.controller;
 
 import deals.cache.CacheManager;
+import deals.filter.EndDayofWeekFilter;
+import deals.filter.StartDayOfWeekFilter;
 import deals.filter.MonthFilter;
 import deals.filter.NoOfDaysFilter;
-import deals.filter.PackageFilter;
 import deals.filter.YearFilter;
 import deals.service.PackageDealService;
 import deals.sort.PackagePriceComparator;
@@ -46,7 +47,10 @@ public class DealsController {
     NoOfDaysFilter noOfDaysFilter;
 
     @Autowired
-    PackageFilter packageFilter;
+    StartDayOfWeekFilter startDayOfWeekFilter;
+
+    @Autowired
+    EndDayofWeekFilter endDayofWeekFilter;
 
     @Autowired
     PackagePriceComparator packagePriceComparator;
@@ -67,7 +71,9 @@ public class DealsController {
                                             @RequestParam(value = "dest", required = false) String dest,
                                             @RequestParam(value = "month", required = false) String month,
                                             @RequestParam(value = "year", required = false) String year,
-                                            @RequestParam(value = "noOfDays", required = false) String noOfDays)
+                                            @RequestParam(value = "noOfDays", required = false) String noOfDays,
+                                            @RequestParam(value = "startDayOfWeek", required = false) String startDay,
+                                            @RequestParam(value = "endDayOfWeek", required = false) String endDay)
             throws Exception {
 
         List<PackageDeal> deals = new ArrayList();
@@ -78,7 +84,6 @@ public class DealsController {
         }
 
         deals.stream().forEach(deal -> deal.setNoOfDays(calculateDays(deal)));
-        //deals = clone(deals);
 
         if (month != null && !month.isEmpty()) {
             deals = monthFilter.filter(deals, month);
@@ -89,6 +94,14 @@ public class DealsController {
 
         if (noOfDays != null && !noOfDays.isEmpty()) {
             deals = noOfDaysFilter.filter(deals, noOfDays);
+        }
+
+        if (startDay != null && ! startDay.isEmpty()) {
+            deals = startDayOfWeekFilter.filter(deals, startDay);
+        }
+
+        if (endDay != null && ! endDay.isEmpty()) {
+            deals = endDayofWeekFilter.filter(deals, endDay);
         }
 
         sort.sortByComparators(deals);

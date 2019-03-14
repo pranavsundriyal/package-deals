@@ -14,9 +14,11 @@ $(document).ready(function() {
             data: {
                 origin: $( "#origin" ).selectmenu().val(),
                 dest: $("#dest").val(),
-                month: $( "#month" ).selectmenu().val() == "all" ? "" : $( "#month" ).selectmenu().val(),
+                month: $( "#month" ).selectmenu().val(),
                 year: $( "#year" ).selectmenu().val(),
                 noOfDays: $("#noOfDays").val(),
+                startDayOfWeek: $("#start_day").selectmenu().val(),
+                endDayOfWeek: $("#end_day").selectmenu().val()
             },
             success: function (data) {
                 $("#status").empty();
