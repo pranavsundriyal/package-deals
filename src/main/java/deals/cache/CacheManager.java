@@ -1,15 +1,12 @@
 package deals.cache;
 
 import deals.service.CheapFlightService;
-import deals.service.CheapestPackageService;
 import deals.service.GenericPackageDealService;
 import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
-import deals.service.RedshiftConnector;
 import deals.service.TopDestinationsService;
 import deals.service.TopPackageNetDestinationService;
-import deals.sort.Sort;
-import deals.sql.model.Deals;
+import deals.sort.SortManager;
 import deals.sql.model.PackageDeal;
 import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static deals.sql.SqlQueryGenerator.MY_DESTINATIONS;
-import static deals.util.Util.sort;
 
 /**
  * Created by psundriyal on 6/17/18.
@@ -60,7 +56,7 @@ public class CacheManager {
     private XmlUtil xmlUtil;
 
     @Autowired
-    private Sort sort;
+    private SortManager sort;
 
     @Value("${settings.readFromCache}")
     private boolean readFromCache;
