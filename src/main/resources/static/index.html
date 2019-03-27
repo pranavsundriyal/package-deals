@@ -33,6 +33,23 @@
             <br><br>
             Destination  :<input type="text" id="dest" value="">
             <br><br>
+            Month : &nbsp;&nbsp;
+            <select name="month" id="month">
+                <option value="">ANY</option>
+                <option value="01">JANUARY</option>
+                <option value="02">FEBRUARY</option>
+                <option value="03">MARCH</option>
+                <option value="04">APRIL</option>
+                <option value="05">MAY</option>
+                <option value="06">JUNE</option>
+                <option value="07">JULY</option>
+                <option value="08">AUGUST</option>
+                <option value="09">SEPTEMBER</option>
+                <option value="10">OCTOBER</option>
+                <option value="11">NOVEMBER</option>
+                <option value="12">DECEMBER</option>
+            </select>
+            <br><br>
             Start Day : &nbsp;&nbsp;
             <select name="start_day" id="start_day">
                 <option value="">ANY</option>
@@ -57,28 +74,7 @@
                 <option value="7">SATURDAY</option>
             </select>
             <br><br>
-            Month : &nbsp;&nbsp;
-            <select name="month" id="month">
-                <option value="">ANY</option>
-                <option value="01">JANUARY</option>
-                <option value="02">FEBRUARY</option>
-                <option value="03">MARCH</option>
-                <option value="04">APRIL</option>
-                <option value="05">MAY</option>
-                <option value="06">JUNE</option>
-                <option value="07">JULY</option>
-                <option value="08">AUGUST</option>
-                <option value="09">SEPTEMBER</option>
-                <option value="10">OCTOBER</option>
-                <option value="11">NOVEMBER</option>
-                <option value="12">DECEMBER</option>
-            </select>
-            <br><br>
-            Year : &nbsp;&nbsp;
-            <select name="year" id="year">
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-            </select>
+            No of Days : <input type="text" id="noOfDays" value="">
             <br><br>
             No of Adults : &nbsp;&nbsp;
             <select name="noAdults" id="noAdults" style="width: 50px;">
@@ -88,7 +84,13 @@
                 <option value="4">4</option>
             </select>
             <br><br>
-            No of Days : <input type="text" id="noOfDays" value=""><br><br>
+            Sort : &nbsp;&nbsp;
+            <select name="sortBy" id="sortBy">
+                <option value="price">Price</option>
+                <option value="date">Date</option>
+                <option value="stops">Stops</option>
+            </select>
+            <br><br>
         </div>
         <button id="search" class="btn-primary" type="button" >Search</button><br>
         <div id="status"></div><br>

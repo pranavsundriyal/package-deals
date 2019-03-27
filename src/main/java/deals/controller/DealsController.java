@@ -1,14 +1,9 @@
 package deals.controller;
 
 import deals.cache.CacheManager;
-import deals.filter.EndDayofWeekFilter;
-import deals.filter.StartDayOfWeekFilter;
-import deals.filter.MonthFilter;
-import deals.filter.NoOfDaysFilter;
-import deals.filter.YearFilter;
+import deals.filter.FilterManager;
 import deals.service.PackageDealService;
-import deals.sort.PackagePriceComparator;
-import deals.sort.Sort;
+import deals.sort.SortManager;
 import deals.sql.model.PackageDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,25 +33,10 @@ public class DealsController {
     CacheManager cacheManager;
 
     @Autowired
-    MonthFilter monthFilter;
+    FilterManager filterManager;
 
     @Autowired
-    YearFilter yearFilter;
-
-    @Autowired
-    NoOfDaysFilter noOfDaysFilter;
-
-    @Autowired
-    StartDayOfWeekFilter startDayOfWeekFilter;
-
-    @Autowired
-    EndDayofWeekFilter endDayofWeekFilter;
-
-    @Autowired
-    PackagePriceComparator packagePriceComparator;
-
-    @Autowired
-    Sort sort ;
+    SortManager sortManager ;
 
     @RequestMapping(value = "/getRedshiftDeals")
     public List<PackageDeal> getDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
@@ -70,14 +50,13 @@ public class DealsController {
     public List<PackageDeal> getCachedDeals(@RequestParam(value = "origin", required = true) String origin,
                                             @RequestParam(value = "dest", required = false) String dest,
                                             @RequestParam(value = "month", required = false) String month,
-                                            @RequestParam(value = "year", required = false) String year,
                                             @RequestParam(value = "noOfDays", required = false) String noOfDays,
                                             @RequestParam(value = "startDayOfWeek", required = false) String startDay,
-                                            @RequestParam(value = "endDayOfWeek", required = false) String endDay)
-            throws Exception {
+                                            @RequestParam(value = "endDayOfWeek", required = false) String endDay,
+                                            @RequestParam(value = "sort", required = false) String sortBy) throws Exception {
 
-        List<PackageDeal> deals = new ArrayList();
-        if (!dest.isEmpty()) {
+        List<PackageDeal> deals ;
+        if (dest != null && !dest.isEmpty()) {
             deals = cacheManager.getCachedDeals(origin,dest);
         } else {
             deals = cacheManager.getCachedDeals(origin);
@@ -85,26 +64,10 @@ public class DealsController {
 
         deals.stream().forEach(deal -> deal.setNoOfDays(calculateDays(deal)));
 
-        if (month != null && !month.isEmpty()) {
-            deals = monthFilter.filter(deals, month);
-        }
-        if (year != null && !year.isEmpty()) {
-            deals = yearFilter.filter(deals, year);
-        }
+        deals = filterManager.filter(deals, month, startDay, endDay, noOfDays);
 
-        if (noOfDays != null && !noOfDays.isEmpty()) {
-            deals = noOfDaysFilter.filter(deals, noOfDays);
-        }
+        sortManager.sortByComparators(deals, sortBy);
 
-        if (startDay != null && ! startDay.isEmpty()) {
-            deals = startDayOfWeekFilter.filter(deals, startDay);
-        }
-
-        if (endDay != null && ! endDay.isEmpty()) {
-            deals = endDayofWeekFilter.filter(deals, endDay);
-        }
-
-        sort.sortByComparators(deals);
         return deals;
     }
 
