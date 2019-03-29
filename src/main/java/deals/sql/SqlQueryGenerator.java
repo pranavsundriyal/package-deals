@@ -272,7 +272,7 @@ public class SqlQueryGenerator {
     public static String generateCheapQuery(String origin, List<String> destinations, int limit) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate searchDate = LocalDate.now().minusDays(2);
+        LocalDate searchDate = LocalDate.now().minusDays(1);
 
 
         String query = "(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +

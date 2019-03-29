@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -75,14 +76,16 @@ public class CacheManager {
         } else {
 
             log.info("Getting top package net destination");
-            Set<String> topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 25);
+            Set<String> topPackageNetDestinations = new HashSet<>();
+            //topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 25);
             topPackageNetDestinations.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting top popular package  destination");
-            Set<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 25);
+            Set<String> popularPackageDestinations = new HashSet<>();
+            //popularPackageDestinations = popularPackageDestinationService.execute("ORD", 25);
             popularPackageDestinations.stream().forEach(destination -> log.info(destination));
 
-            popularPackageDestinations.retainAll(topPackageNetDestinations);
+            //popularPackageDestinations.retainAll(topPackageNetDestinations);
             List<String> destinations = new ArrayList<>();
             destinations.addAll(popularPackageDestinations);
             destinations.stream().forEach(destination -> log.info(destination));
@@ -94,7 +97,7 @@ public class CacheManager {
             popularDestinations.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting generic package deals");
-            packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD","SEA"), destinations));
+            //packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD","SEA"), destinations));
 
             popularDestinationList.addAll(MY_DESTINATIONS);
 
@@ -102,7 +105,7 @@ public class CacheManager {
             packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
 
             log.info("Getting generic half price package deals");
-            packageDeals.addAll(halfPricePackageService.execute());
+            //packageDeals.addAll(halfPricePackageService.execute());
 
             xmlUtil.write(packageDeals);
 
