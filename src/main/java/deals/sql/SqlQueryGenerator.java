@@ -221,17 +221,17 @@ public class SqlQueryGenerator {
     }
 
 
-    public static String generateMultiOriginSuperSimpleQuery(List<String> origins, List<String> destinations) {
+    public static String generateMultiOriginCheapPackageNetQuery(List<String> origins, List<String> destinations, int limit) {
 
-        String query = generateSuperSimpleQuery(origins.get(0), destinations);
+        String query = generateCheapPackageNetQuery(origins.get(0), destinations, limit);
 
         for (int i = 1; i < origins.size();i++) {
-            String subQuery = generateSuperSimpleQuery(origins.get(i), destinations);
+            String subQuery = generateCheapPackageNetQuery(origins.get(i), destinations, limit);
             query = query+ UNION + subQuery;
         }
         return query;
     }
-    public static String generateSuperSimpleQuery(String origin, List<String> destinations) {
+    public static String generateCheapPackageNetQuery(String origin, List<String> destinations, int limit) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate searchDate = LocalDate.now().minusDays(1);
@@ -243,7 +243,7 @@ public class SqlQueryGenerator {
                 "trip_type like 'roundtrip' and \n" +
                 " fare_type like 'package net' \n" +
                 "order by total_price \n" +
-                "limit 200)";
+                "limit "+limit+")";
 
         for (int i = 1; i < destinations.size(); i++) {
             String subQuery = "\n(select distinct total_price, outbound_airport,inbound_airport,outbound_departure_time, inbound_arrival_time,marketing_flights\n" +
@@ -252,7 +252,7 @@ public class SqlQueryGenerator {
                     "trip_type like 'roundtrip' and \n" +
                     "fare_type like 'package net' \n" +
                     "order by total_price \n" +
-                    "limit 200)";
+                    "limit "+limit+")";
 
             query = query + UNION + subQuery;
         }

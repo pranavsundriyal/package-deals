@@ -32,15 +32,9 @@ public class CheapestPackageService {
     @Autowired
     XmlUtil xmlWriter;
 
-    public List<PackageDeal> execute(List destinations){
+    public List<PackageDeal> execute(List origins, List destinations, int limit){
         List<PackageDeal> packageDeals = new ArrayList<>();
-        List<String> world = new ArrayList<>();
-        world.addAll(europe);
-        world.addAll(hawai);
-        world.addAll(usa);
-        world.addAll(southamerica);
-        world.addAll(austrailia);
-        String query = SqlQueryGenerator.generateMultiOriginSuperSimpleQuery(Arrays.asList( "ORD"), destinations);
+        String query = SqlQueryGenerator.generateMultiOriginCheapPackageNetQuery(origins, destinations, limit);
         List<List<Object>> objects = genericRedshiftConnector.execute(query);
 
         for(List<Object> objectList : objects) {
