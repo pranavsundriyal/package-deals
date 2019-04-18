@@ -1,6 +1,7 @@
 package deals.cache;
 
 import deals.service.CheapFlightService;
+import deals.service.CheapestPackageService;
 import deals.service.GenericPackageDealService;
 import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static deals.sql.SqlQueryGenerator.MY_DESTINATIONS;
+import static deals.sql.SqlQueryGenerator.euro;
 
 /**
  * Created by psundriyal on 6/17/18.
@@ -51,6 +53,9 @@ public class CacheManager {
     private GenericPackageDealService genericPackageDealService;
 
     @Autowired
+    private CheapestPackageService cheapestPackageService;
+
+    @Autowired
     private CheapFlightService cheapFlightService;
 
     @Autowired
@@ -76,19 +81,14 @@ public class CacheManager {
         } else {
 
             log.info("Getting top package net destination");
-            Set<String> topPackageNetDestinations = new HashSet<>();
-            //topPackageNetDestinations = topPackageNetDestinationService.execute("ORD", 25);
-            topPackageNetDestinations.stream().forEach(destination -> log.info(destination));
+            //Set<String> destinationsWithPackageNetOffers = topPackageNetDestinationService.execute("ORD", 25);
+            //destinationsWithPackageNetOffers.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting top popular package  destination");
-            Set<String> popularPackageDestinations = new HashSet<>();
-            //popularPackageDestinations = popularPackageDestinationService.execute("ORD", 25);
+            List<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 5);
             popularPackageDestinations.stream().forEach(destination -> log.info(destination));
 
             //popularPackageDestinations.retainAll(topPackageNetDestinations);
-            List<String> destinations = new ArrayList<>();
-            destinations.addAll(popularPackageDestinations);
-            destinations.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting most popular standalone destination");
             Set<String> popularDestinations = topDestinationsService.execute("ORD", 25);
@@ -97,12 +97,13 @@ public class CacheManager {
             popularDestinations.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting generic package deals");
-            //packageDeals.addAll(genericPackageDealService.execute(Arrays.asList("ORD","SEA"), destinations));
+            popularPackageDestinations.addAll(euro);
+            packageDeals.addAll(cheapestPackageService.execute(Arrays.asList("ORD","SEA"), popularPackageDestinations, 100));
 
             popularDestinationList.addAll(MY_DESTINATIONS);
 
             log.info("Getting generic cheap flight deals");
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,100));
 
             log.info("Getting generic half price package deals");
             //packageDeals.addAll(halfPricePackageService.execute());
