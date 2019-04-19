@@ -29,6 +29,7 @@ public  class Util {
             packageDeal.setOutboundDate(truncateDate(packageDeal.getOutboundDateTime().toString()));
             packageDeal.setInboundDate(truncateDate(packageDeal.getInboundDateTime().toString()));
             packageDeal.setUrl(Util.generateUrl(packageDeal));
+            packageDeal.setNoOfDays(calculateDays(packageDeal));
         }
         return packageDeals;
     }

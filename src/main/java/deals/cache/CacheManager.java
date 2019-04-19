@@ -91,7 +91,7 @@ public class CacheManager {
             //popularPackageDestinations.retainAll(topPackageNetDestinations);
 
             log.info("Getting most popular standalone destination");
-            Set<String> popularDestinations = topDestinationsService.execute("ORD", 25);
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 10);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
             popularDestinations.stream().forEach(destination -> log.info(destination));
@@ -103,7 +103,7 @@ public class CacheManager {
             popularDestinationList.addAll(MY_DESTINATIONS);
 
             log.info("Getting generic cheap flight deals");
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,100));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
 
             log.info("Getting generic half price package deals");
             //packageDeals.addAll(halfPricePackageService.execute());
