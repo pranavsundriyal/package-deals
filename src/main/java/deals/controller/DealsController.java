@@ -7,6 +7,7 @@ import deals.sort.SortManager;
 import deals.sql.model.PackageDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +46,7 @@ public class DealsController {
         return deals;
     }
 
-
+    @CrossOrigin
     @RequestMapping(value = "/getCachedDeals")
     public List<PackageDeal> getCachedDeals(@RequestParam(value = "origin", required = true) String origin,
                                             @RequestParam(value = "dest", required = false) String dest,
@@ -70,6 +71,7 @@ public class DealsController {
         return deals;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/getDealSummary")
     public Map<String,Double> getDealSummary(@RequestParam(value = "origin", required = true) String origin) {
 
