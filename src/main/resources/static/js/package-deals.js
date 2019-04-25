@@ -18,7 +18,8 @@ $(document).ready(function() {
                 noOfDays: $("#noOfDays").val(),
                 startDayOfWeek: $("#start_day").selectmenu().val(),
                 endDayOfWeek: $("#end_day").selectmenu().val(),
-                sort: $("#sortBy").selectmenu().val()
+                sort: $("#sortBy").selectmenu().val(),
+                carrierCode: $("#carrierCode").selectmenu().val()
             },
             success: function (data) {
                 $("#status").empty();

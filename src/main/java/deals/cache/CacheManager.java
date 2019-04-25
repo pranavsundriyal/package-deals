@@ -7,7 +7,6 @@ import deals.service.HalfPricePackageService;
 import deals.service.PopularPackageDestinationService;
 import deals.service.TopDestinationsService;
 import deals.service.TopPackageNetDestinationService;
-import deals.sort.SortManager;
 import deals.sql.model.PackageDeal;
 import deals.xml.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,9 +59,6 @@ public class CacheManager {
     @Autowired
     private XmlUtil xmlUtil;
 
-    @Autowired
-    private SortManager sort;
-
     @Value("${settings.readFromCache}")
     private boolean readFromCache;
 
@@ -91,7 +86,7 @@ public class CacheManager {
             //popularPackageDestinations.retainAll(topPackageNetDestinations);
 
             log.info("Getting most popular standalone destination");
-            Set<String> popularDestinations = topDestinationsService.execute("ORD", 25);
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 10);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
             popularDestinations.stream().forEach(destination -> log.info(destination));
@@ -103,7 +98,7 @@ public class CacheManager {
             popularDestinationList.addAll(MY_DESTINATIONS);
 
             log.info("Getting generic cheap flight deals");
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,100));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD","SEA"), popularDestinationList,50));
 
             log.info("Getting generic half price package deals");
             //packageDeals.addAll(halfPricePackageService.execute());
@@ -115,6 +110,7 @@ public class CacheManager {
         cacheDeals(packageDeals);
     }
     public boolean cacheDeals(List<PackageDeal> packageDeals) {
+        packageDealMap.clear();
         for (PackageDeal deal : packageDeals) {
             String key = generateKey(deal.getOrigin(), deal.getDestination());
             if (!packageDealMap.containsKey(key)){
@@ -134,10 +130,8 @@ public class CacheManager {
         String key = generateKey(origin,destination);
         if (packageDealMap.containsKey(key)) {
             List<PackageDeal> packageDeals = packageDealMap.get(key);
-            //sort(packageDeals);
             return packageDeals;
         }
-
         return new ArrayList();
     }
 
@@ -150,7 +144,6 @@ public class CacheManager {
                 packageDeals.addAll(packageDealMap.get(key));
             }
          }
-        //sort.sortByComparators(packageDeals);
         return packageDeals;
     }
 

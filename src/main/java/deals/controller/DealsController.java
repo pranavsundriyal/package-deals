@@ -53,7 +53,8 @@ public class DealsController {
                                             @RequestParam(value = "noOfDays", required = false) String noOfDays,
                                             @RequestParam(value = "startDayOfWeek", required = false) String startDay,
                                             @RequestParam(value = "endDayOfWeek", required = false) String endDay,
-                                            @RequestParam(value = "sort", required = false) String sortBy) throws Exception {
+                                            @RequestParam(value = "sort", required = false) String sortBy,
+                                            @RequestParam(value = "carrierCode", required = false) String carrierCode) throws Exception {
 
         List<PackageDeal> deals ;
         if (dest != null && !dest.isEmpty()) {
@@ -62,9 +63,7 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin);
         }
 
-        deals.stream().forEach(deal -> deal.setNoOfDays(calculateDays(deal)));
-
-        deals = filterManager.filter(deals, month, startDay, endDay, noOfDays);
+        deals = filterManager.filter(deals, month, startDay, endDay, noOfDays, carrierCode);
 
         sortManager.sortByComparators(deals, sortBy);
 

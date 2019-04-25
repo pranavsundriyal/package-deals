@@ -25,8 +25,12 @@ public class FilterManager {
     @Autowired
     EndDayofWeekFilter endDayofWeekFilter;
 
+    @Autowired
+    CarrierFilter carrierFilter;
 
-    public List<PackageDeal> filter (List<PackageDeal> deals, String month, String startDay, String endDay, String noOfDays) {
+
+    public List<PackageDeal> filter (List<PackageDeal> deals, String month, String startDay, String endDay,
+                                     String noOfDays, String carrierCode) {
 
         if (month != null && !month.isEmpty()) {
             deals = monthFilter.filter(deals, month);
@@ -36,12 +40,16 @@ public class FilterManager {
             deals = noOfDaysFilter.filter(deals, noOfDays);
         }
 
-        if (startDay != null && ! startDay.isEmpty()) {
+        if (startDay != null && !startDay.isEmpty()) {
             deals = startDayOfWeekFilter.filter(deals, startDay);
         }
 
-        if (endDay != null && ! endDay.isEmpty()) {
+        if (endDay != null && !endDay.isEmpty()) {
             deals = endDayofWeekFilter.filter(deals, endDay);
+        }
+
+        if (carrierCode !=null && !carrierCode.isEmpty()) {
+            deals = carrierFilter.filter(deals, carrierCode);
         }
     return deals;
     }
