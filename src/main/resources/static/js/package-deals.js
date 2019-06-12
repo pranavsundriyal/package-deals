@@ -8,6 +8,7 @@ $(document).ready(function() {
     $("#search").click(function () {
         $("#status").append("Searching for Results ........");
         $("#results").empty();
+        $("#airlinePercentage").empty();
         $.ajax({
             type: "GET",
             url: "getCachedDeals",
@@ -15,7 +16,8 @@ $(document).ready(function() {
                 origin: $( "#origin" ).selectmenu().val(),
                 dest: $("#dest").val(),
                 month: $( "#month" ).selectmenu().val(),
-                noOfDays: $("#noOfDays").val(),
+                noOfDaysLower: $("#noOfDaysLower").val(),
+                noOfDaysHigher: $("#noOfDaysHigher").val(),
                 startDayOfWeek: $("#start_day").selectmenu().val(),
                 endDayOfWeek: $("#end_day").selectmenu().val(),
                 sort: $("#sortBy").selectmenu().val(),
@@ -26,26 +28,43 @@ $(document).ready(function() {
                 $("#results").empty();
 
                 var adults = $( "#noAdults" ).selectmenu().val();
-                for(var i=0; i<data.length; i++) {
-                    totalDeals = data.length;
+                var airlineDominanceMap = data.airlineDominanceMap;
+                renderAirlinePercentageData(airlineDominanceMap);
+
+                var deals = data.packageDeals;
+                for(var i=0; i<deals.length; i++) {
+                    totalDeals = deals.length;
                     $("#results").append('<div class="col-md-4" id="deal-card-' + i + '"><a target="_blank" rel="noopener ' +
                         'noreferrer" style="text-decoration : none" href="'
-                        + data[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+adults
-                        + '"><div class="package-price"><h5><b>Approx. Per Person Price '+isHotelIncluded(data[i].package)+' : $'
-                        + calculatePrice(data[i], adults) + '</b></h5></div><div><h5>Origin: ' + data[i].origin
-                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + data[i].destination + '</h5></div>'
-                        + '<div><h5>Journey Start Time: ' + data[i].outboundDate + '</h5></div>'
-                        + '<div><h5>Journey End Time: ' + data[i].inboundDate + '</h5></div>'
-                        + '<div><h5>Flight No: ' + data[i].flightNo+ '</h5></div>'
-                        + '<div><h5>No. of Days: ' + data[i].noOfDays + '</h5></div>'
-                        + '<div><h5>'+path(data[i].package) + '&nbsp;Deal</h5></div></a><br><br></div>');
+                        + deals[i].url+'&passengers=adults:'+$( "#noAdults" ).selectmenu().val()+'&adults='+adults
+                        + '"><div class="package-price"><h5><b>Approx. Per Person Price '+isHotelIncluded(deals[i].package)+' : $'
+                        + calculatePrice(deals[i], adults) + '</b></h5></div><div><h5>Origin: ' + deals[i].origin
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination: ' + deals[i].destination + '</h5></div>'
+                        + '<div><h5>Journey Start Time: ' + deals[i].outboundDate + '</h5></div>'
+                        + '<div><h5>Journey End Time: ' + deals[i].inboundDate + '</h5></div>'
+                        + '<div><h5>Flight No: ' + deals[i].flightNo+ '</h5></div>'
+                        + '<div><h5>No. of Days: ' + deals[i].noOfDays + '</h5></div>'
+                        + '<div><h5>'+path(deals[i].package) + '&nbsp;Deal</h5></div></a><br><br></div>');
                 }
+
             },
             error: function(data) {
                 //Do Something to handle error
             }
         });
     });
+
+    function renderAirlinePercentageData(data) {
+        $("#airlinePercentage").append('<div><b>Carrier Percentage in the search : </b><br></div>');
+        var i = 0;
+        $.each(data, function(key, value) {
+            $("#airlinePercentage").append(key+'&nbsp;-&nbsp;'+value+'% &nbsp;&nbsp;&nbsp;');
+            i++
+            if(i%10 == 0) {
+                $("#airlinePercentage").append('<br>');
+            }
+        });
+    }
 
     function isHotelIncluded(isPackage) {
         if(path(isPackage) == "Package") {

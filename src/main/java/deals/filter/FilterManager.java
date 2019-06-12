@@ -17,7 +17,10 @@ public class FilterManager {
     MonthFilter monthFilter;
 
     @Autowired
-    NoOfDaysFilter noOfDaysFilter;
+    NoOfDaysHigherFilter noOfDaysHigherFilter;
+
+    @Autowired
+    NoOfDaysLowerFilter noOfDaysLowerFilter;
 
     @Autowired
     StartDayOfWeekFilter startDayOfWeekFilter;
@@ -30,14 +33,18 @@ public class FilterManager {
 
 
     public List<PackageDeal> filter (List<PackageDeal> deals, String month, String startDay, String endDay,
-                                     String noOfDays, String carrierCode) {
+                                     String noOfDaysLower, String noOfDaysHigher, String carrierCode) {
 
         if (month != null && !month.isEmpty()) {
             deals = monthFilter.filter(deals, month);
         }
 
-        if (noOfDays != null && !noOfDays.isEmpty()) {
-            deals = noOfDaysFilter.filter(deals, noOfDays);
+        if (noOfDaysHigher != null && !noOfDaysHigher.isEmpty()) {
+            deals = noOfDaysHigherFilter.filter(deals, noOfDaysHigher);
+        }
+
+        if (noOfDaysLower != null && !noOfDaysLower.isEmpty()) {
+            deals = noOfDaysLowerFilter.filter(deals, noOfDaysLower);
         }
 
         if (startDay != null && !startDay.isEmpty()) {

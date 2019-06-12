@@ -4,7 +4,9 @@ import deals.cache.CacheManager;
 import deals.filter.FilterManager;
 import deals.service.PackageDealService;
 import deals.sort.SortManager;
+import deals.sql.model.DealResponse;
 import deals.sql.model.PackageDeal;
+import deals.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,14 +50,15 @@ public class DealsController {
 
     @CrossOrigin
     @RequestMapping(value = "/getCachedDeals")
-    public List<PackageDeal> getCachedDeals(@RequestParam(value = "origin", required = true) String origin,
-                                            @RequestParam(value = "dest", required = false) String dest,
-                                            @RequestParam(value = "month", required = false) String month,
-                                            @RequestParam(value = "noOfDays", required = false) String noOfDays,
-                                            @RequestParam(value = "startDayOfWeek", required = false) String startDay,
-                                            @RequestParam(value = "endDayOfWeek", required = false) String endDay,
-                                            @RequestParam(value = "sort", required = false) String sortBy,
-                                            @RequestParam(value = "carrierCode", required = false) String carrierCode) throws Exception {
+    public DealResponse getCachedDeals(@RequestParam(value = "origin", required = true) String origin,
+                                       @RequestParam(value = "dest", required = false) String dest,
+                                       @RequestParam(value = "month", required = false) String month,
+                                       @RequestParam(value = "noOfDaysLower", required = false) String noOfDaysLower,
+                                       @RequestParam(value = "noOfDaysHigher", required = false) String noOfDaysHigher,
+                                       @RequestParam(value = "startDayOfWeek", required = false) String startDay,
+                                       @RequestParam(value = "endDayOfWeek", required = false) String endDay,
+                                       @RequestParam(value = "sort", required = false) String sortBy,
+                                       @RequestParam(value = "carrierCode", required = false) String carrierCode) throws Exception {
 
         List<PackageDeal> deals ;
         if (dest != null && !dest.isEmpty()) {
@@ -64,11 +67,13 @@ public class DealsController {
             deals = cacheManager.getCachedDeals(origin);
         }
 
-        deals = filterManager.filter(deals, month, startDay, endDay, noOfDays, carrierCode);
+        deals = filterManager.filter(deals, month, startDay, endDay, noOfDaysLower, noOfDaysHigher, carrierCode);
 
         sortManager.sortByComparators(deals, sortBy);
 
-        return deals;
+        Map<String, Float> airlineDominanceMap = Util.calculateAirlineDominance(deals);
+
+        return new DealResponse(deals, airlineDominanceMap);
     }
 
     @CrossOrigin

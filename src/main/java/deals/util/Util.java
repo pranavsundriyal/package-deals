@@ -6,9 +6,12 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -136,4 +139,28 @@ public  class Util {
         return Math.toIntExact(diff);
     }
 
+    public static Map calculateAirlineDominance(List<PackageDeal> packageDeals) {
+        Map<String, Float> airlineCountMap = new HashMap<>();
+        float totalFlights = 0;
+        for (PackageDeal packageDeal : packageDeals) {
+            String flightNo = packageDeal.getFlightNo();
+            String[] flightStrings = flightNo.split("-|\\s+");
+            for (int i=0; i < flightStrings.length; i++){
+                if (i%2 == 0){
+                    if (!airlineCountMap.containsKey(flightStrings[i])){
+                        airlineCountMap.put(flightStrings[i], 1f);
+                        totalFlights++;
+                    } else {
+                        airlineCountMap.put(flightStrings[i], 1 + airlineCountMap.get(flightStrings[i]));
+                        totalFlights++;
+                    }
+                }
+            }
+        }
+
+        for (Map.Entry<String, Float> airlineCount : airlineCountMap.entrySet()) {
+            airlineCount.setValue(airlineCount.getValue()/totalFlights*100);
+        }
+        return airlineCountMap;
+    }
 }
