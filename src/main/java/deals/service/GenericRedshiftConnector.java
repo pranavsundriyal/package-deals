@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 @Service
 public class GenericRedshiftConnector {
 
-    static final String dbURL = "jdbc:redshift://bexg.cdzdl6bkwykk.us-east-1.redshift.amazonaws.com:5439/prod";
+    static final String dbURL = "jdbc:redshift://localhost:8889/prod";
     static final String MasterUsername = "air_shop_data_ingestion";
     static final String MasterUserP = "Airshopdata123";
 
