@@ -15,7 +15,7 @@ import static deals.util.Util.convertToDate;
  */
 
 @Component
-public class NoOfDaysFilter implements Filter {
+public class NoOfDaysHigherFilter implements Filter {
     @Override
     public List<PackageDeal> filter(List<PackageDeal> packageDeals, String param) {
         List<PackageDeal> filteredPackageDeals = new ArrayList<>();
@@ -29,14 +29,7 @@ public class NoOfDaysFilter implements Filter {
     }
 
     boolean doesMatch(PackageDeal packageDeal, String param) {
-        int noOfDays = Integer.parseInt(param);
-        Date inboundDate = convertToDate(packageDeal.getInboundDate());
-        Date outboundDate = convertToDate(packageDeal.getOutboundDate());
-
-        long diffInMillies = Math.abs((outboundDate.getTime() - inboundDate.getTime()));
-        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-        return Math.toIntExact(diff) == noOfDays;
-
+        int noOfDaysHigher = Integer.parseInt(param);
+        return noOfDaysHigher < packageDeal.getNoOfDays() ;
     }
 }
