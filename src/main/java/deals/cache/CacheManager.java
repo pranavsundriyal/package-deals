@@ -106,8 +106,9 @@ public class CacheManager {
             xmlUtil.write(packageDeals);
 
         }
-
-        cacheDeals(packageDeals);
+        if(!packageDeals.isEmpty()) {
+            cacheDeals(packageDeals);
+        }
     }
     public boolean cacheDeals(List<PackageDeal> packageDeals) {
         packageDealMap.clear();
