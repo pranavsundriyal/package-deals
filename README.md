@@ -27,7 +27,7 @@ Uses redshift jobs to mine based on the set algorithms. Job runs once evryday to
 ## Show me it in action!
 run it and try it out in web browser
 
-checkout : go/deals
+check it out in action : go/deals
 
 ## What's next?
 
