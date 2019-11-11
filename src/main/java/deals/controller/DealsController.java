@@ -55,8 +55,8 @@ public class DealsController {
                                        @RequestParam(value = "month", required = false) String month,
                                        @RequestParam(value = "noOfDaysLower", required = false) String noOfDaysLower,
                                        @RequestParam(value = "noOfDaysHigher", required = false) String noOfDaysHigher,
-                                       @RequestParam(value = "startDayOfWeek", required = false) String startDay,
-                                       @RequestParam(value = "endDayOfWeek", required = false) String endDay,
+                                       @RequestParam(value = "startDayOfWeek", required = false) List<String> startDay,
+                                       @RequestParam(value = "endDayOfWeek", required = false) List<String> endDay,
                                        @RequestParam(value = "sort", required = false) String sortBy,
                                        @RequestParam(value = "carrierCode", required = false) String carrierCode) throws Exception {
 

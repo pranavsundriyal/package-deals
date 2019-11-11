@@ -32,7 +32,7 @@ public class FilterManager {
     CarrierFilter carrierFilter;
 
 
-    public List<PackageDeal> filter (List<PackageDeal> deals, String month, String startDay, String endDay,
+    public List<PackageDeal> filter (List<PackageDeal> deals, String month, List<String> startDay, List<String> endDay,
                                      String noOfDaysLower, String noOfDaysHigher, String carrierCode) {
 
         if (month != null && !month.isEmpty()) {
@@ -48,11 +48,11 @@ public class FilterManager {
         }
 
         if (startDay != null && !startDay.isEmpty()) {
-            deals = startDayOfWeekFilter.filter(deals, startDay);
+            deals = startDayOfWeekFilter.multiFilter(deals, startDay);
         }
 
         if (endDay != null && !endDay.isEmpty()) {
-            deals = endDayofWeekFilter.filter(deals, endDay);
+            deals = endDayofWeekFilter.multiFilter(deals, endDay);
         }
 
         if (carrierCode !=null && !carrierCode.isEmpty()) {
