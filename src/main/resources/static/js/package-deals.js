@@ -126,6 +126,20 @@ $(document).ready(function() {
         });
     });
 
+    $.ajax({
+        type: "GET",
+        url: "getTime",
+        data: {
+        },
+        success: function (data) {
+            $("#lastUpdate").empty();
+            $("#lastUpdate").append('Last update time : ' +data);
+
+        },
+        error: function(data) {
+            //Do Something to handle error
+        }
+    });
 
     function twoDigitPrices(savings) {
         return savings.toFixed(2);

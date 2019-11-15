@@ -2,7 +2,7 @@ server:
      port: 8888
 
 settings:
-  readFromCache: true
+  readFromCache: false
 
 spring:
   application:

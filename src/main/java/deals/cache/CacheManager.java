@@ -59,6 +59,9 @@ public class CacheManager {
     @Autowired
     private XmlUtil xmlUtil;
 
+    @Autowired
+    private UpdateDetails updateDetails;
+
     @Value("${settings.readFromCache}")
     private boolean readFromCache;
 
@@ -107,6 +110,7 @@ public class CacheManager {
 
         }
         if(!packageDeals.isEmpty()) {
+            updateDetails.updatedDateTime();
             cacheDeals(packageDeals);
         }
     }

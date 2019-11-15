@@ -1,6 +1,7 @@
 package deals.controller;
 
 import deals.cache.CacheManager;
+import deals.cache.UpdateDetails;
 import deals.filter.FilterManager;
 import deals.service.PackageDealService;
 import deals.sort.SortManager;
@@ -40,6 +41,9 @@ public class DealsController {
 
     @Autowired
     SortManager sortManager ;
+
+    @Autowired
+    UpdateDetails updateDetails;
 
     @RequestMapping(value = "/getRedshiftDeals")
     public List<PackageDeal> getDeals(@RequestParam(value = "origin", required = true) String origin) throws Exception {
@@ -92,6 +96,11 @@ public class DealsController {
 
         return summary;
 
+    }
+
+    @RequestMapping(value = "/getTime")
+    public String getLastUpdatedTime() {
+        return updateDetails.getTime();
     }
 
     public List<PackageDeal> clone(List<PackageDeal> packageDeals){
