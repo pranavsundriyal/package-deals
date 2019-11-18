@@ -18,8 +18,8 @@ $(document).ready(function() {
                 month: $( "#month" ).selectmenu().val(),
                 noOfDaysLower: $("#noOfDaysLower").val(),
                 noOfDaysHigher: $("#noOfDaysHigher").val(),
-                startDayOfWeek: $("#start_day").val().join(", "),
-                endDayOfWeek: $("#end_day").val().join(", "),
+                startDayOfWeek: $("#start_day").val() ? $("#start_day").val().join(", ") : "",
+                endDayOfWeek: $("#end_day").val() ? $("#end_day").val().join(", "): "",
                 sort: $("#sortBy").selectmenu().val(),
                 carrierCode: $("#carrierCode").selectmenu().val()
             },
