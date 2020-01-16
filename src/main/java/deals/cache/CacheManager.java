@@ -96,12 +96,12 @@ public class CacheManager {
 
             log.info("Getting generic package deals");
             popularPackageDestinations.addAll(euro);
-            packageDeals.addAll(cheapestPackageService.execute(Arrays.asList("ORD","SEA"), popularPackageDestinations, 100));
+            packageDeals.addAll(cheapestPackageService.execute(Arrays.asList("ORD","SEA"), popularPackageDestinations, 50));
 
             popularDestinationList.addAll(MY_DESTINATIONS);
 
             log.info("Getting generic cheap flight deals");
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD"), popularDestinationList,50));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD", "SEA"), popularDestinationList,50));
 
             log.info("Getting generic half price package deals");
             //packageDeals.addAll(halfPricePackageService.execute());
