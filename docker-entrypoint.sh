@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+ 
 
 if [[ -z "$JAVA_XMS" ]]; then
     case "${EXPEDIA_DEPLOYED_ENVIRONMENT}" in
