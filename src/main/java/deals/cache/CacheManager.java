@@ -69,7 +69,7 @@ public class CacheManager {
         packageDealMap = new ConcurrentHashMap();
     }
 
-    @Scheduled(fixedRate = 2*86400000)
+    @Scheduled(fixedRate = 1*86400000)
     public void clearCache() {
         List<PackageDeal> packageDeals = new ArrayList<>();
 
@@ -83,25 +83,25 @@ public class CacheManager {
             //destinationsWithPackageNetOffers.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting top popular package  destination");
-            List<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 6);
+            List<String> popularPackageDestinations = popularPackageDestinationService.execute("ORD", 10);
             popularPackageDestinations.stream().forEach(destination -> log.info(destination));
 
             //popularPackageDestinations.retainAll(topPackageNetDestinations);
 
             log.info("Getting most popular standalone destination");
-            Set<String> popularDestinations = topDestinationsService.execute("ORD", 14);
+            Set<String> popularDestinations = topDestinationsService.execute("ORD", 20);
             List<String> popularDestinationList = new ArrayList<>();
             popularDestinationList.addAll(popularDestinations);
             popularDestinations.stream().forEach(destination -> log.info(destination));
 
             log.info("Getting generic package deals");
             popularPackageDestinations.addAll(euro);
-            packageDeals.addAll(cheapestPackageService.execute(Arrays.asList("ORD","SEA"), popularPackageDestinations, 50));
+            packageDeals.addAll(cheapestPackageService.execute(Arrays.asList("ORD","SEA"), popularPackageDestinations, 100));
 
             popularDestinationList.addAll(MY_DESTINATIONS);
 
             log.info("Getting generic cheap flight deals");
-            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD", "SEA"), popularDestinationList,50));
+            packageDeals.addAll(cheapFlightService.execute(Arrays.asList("ORD", "SEA"), popularDestinationList,100));
 
             log.info("Getting generic half price package deals");
             //packageDeals.addAll(halfPricePackageService.execute());
