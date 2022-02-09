@@ -60,7 +60,6 @@ public class XmlUtil {
 
             File file = new File(classLoader.getResource("static/deals.xml").getFile());
 
-            //We had written this file in marshalling example
             deals = (Deals) jaxbUnmarshaller.unmarshal( file);
 
         } catch (JAXBException e) {
